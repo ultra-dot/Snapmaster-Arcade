@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bpg54o544j7em" path="res://scripts/CameraFrame.gd" id="1_ge6jh"]
 [ext_resource type="Texture2D" uid="uid://bhlqfnabv7yf4" path="res://assets/frame.svg" id="2_u0spe"]
+[ext_resource type="Texture2D" uid="uid://bqwniaapn6sgq" path="res://assets/circle bars/16x16/circle bar under.png" id="3_hul8v"]
+[ext_resource type="Texture2D" uid="uid://cbbl27w353v60" path="res://assets/circle bars/16x16/circle bar over.png" id="4_a81fx"]
+[ext_resource type="Texture2D" uid="uid://dqn1rt40vu8i8" path="res://assets/circle bars/16x16/circle bar progress blue.png" id="5_hul8v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ge6jh"]
 size = Vector2(48, 35.5)
@@ -15,3 +18,13 @@ texture = ExtResource("2_u0spe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1638822170]
 shape = SubResource("RectangleShape2D_ge6jh")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1513226968]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+fill_mode = 4
+texture_under = ExtResource("3_hul8v")
+texture_over = ExtResource("4_a81fx")
+texture_progress = ExtResource("5_hul8v")
