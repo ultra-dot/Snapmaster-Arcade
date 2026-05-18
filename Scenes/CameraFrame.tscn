@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://de8ri08cgpinl"]
+
+[ext_resource type="Script" uid="uid://bpg54o544j7em" path="res://scripts/CameraFrame.gd" id="1_ge6jh"]
+[ext_resource type="Texture2D" uid="uid://bhlqfnabv7yf4" path="res://assets/frame.svg" id="2_u0spe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ge6jh"]
+size = Vector2(48, 35.5)
+
+[node name="CameraFrame" type="Area2D" unique_id=1922902824]
+script = ExtResource("1_ge6jh")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1262631871]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_u0spe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1638822170]
+shape = SubResource("RectangleShape2D_ge6jh")

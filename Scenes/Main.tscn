@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cf4josvlj3d2h"]
+
+[ext_resource type="Script" uid="uid://ehdfqpo5g8vg" path="res://scripts/GameManager.gd" id="1_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://ctimvawit4yj3" path="res://Scenes/Duck.tscn" id="2_pbw6q"]
+[ext_resource type="Texture2D" uid="uid://dfp7iern2q72n" path="res://assets/HeartsFrame1.png" id="3_jw32o"]
+[ext_resource type="Texture2D" uid="uid://spab0tbhbikw" path="res://assets/background.png" id="3_v1gob"]
+[ext_resource type="Texture2D" uid="uid://bp3ou4wxq2ylh" path="res://assets/HeartsFrame2.png" id="4_50glp"]
+[ext_resource type="PackedScene" uid="uid://de8ri08cgpinl" path="res://Scenes/CameraFrame.tscn" id="4_jw32o"]
+[ext_resource type="Texture2D" uid="uid://de82r2weassr0" path="res://assets/HeartsFrame3.png" id="5_vy5pj"]
+
+[node name="Main" type="Node2D" unique_id=122853964]
+script = ExtResource("1_rgh2o")
+duck_scene = ExtResource("2_pbw6q")
+tex_heart_full = ExtResource("3_jw32o")
+tex_heart_half = ExtResource("4_50glp")
+tex_heart_empty = ExtResource("5_vy5pj")
+
+[node name="BackgroundLayer" type="Sprite2D" parent="." unique_id=1657552905]
+position = Vector2(640, 360)
+texture = ExtResource("3_v1gob")
+
+[node name="DuckSpawner" type="Node2D" parent="." unique_id=574839863]
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=1176360721]
+autostart = true
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1228813057]
+
+[node name="ScoreLabel" type="Label" parent="HUD" unique_id=848149335]
+offset_left = 34.0
+offset_top = 27.0
+offset_right = 123.0
+offset_bottom = 50.0
+scale = Vector2(2, 2)
+text = "Score Label"
+
+[node name="HeartsContainer" type="HBoxContainer" parent="HUD" unique_id=1401259691]
+offset_left = 1091.0
+offset_top = 19.0
+offset_right = 1147.0
+offset_bottom = 59.0
+scale = Vector2(3, 3)
+
+[node name="TextureRect" type="TextureRect" parent="HUD/HeartsContainer" unique_id=1792245445]
+layout_mode = 2
+texture = ExtResource("3_jw32o")
+stretch_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="HUD/HeartsContainer" unique_id=67946213]
+layout_mode = 2
+texture = ExtResource("3_jw32o")
+stretch_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="HUD/HeartsContainer" unique_id=837616281]
+layout_mode = 2
+texture = ExtResource("3_jw32o")
+stretch_mode = 2
+
+[node name="CameraFrame" parent="." unique_id=1922902824 instance=ExtResource("4_jw32o")]
+position = Vector2(199, 75)
+scale = Vector2(2, 2)
