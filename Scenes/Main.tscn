@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" uid="uid://ehdfqpo5g8vg" path="res://scripts/GameManager.gd" id="1_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://ctimvawit4yj3" path="res://Scenes/Duck.tscn" id="2_pbw6q"]
+[ext_resource type="PackedScene" path="res://Scenes/Frog.tscn" id="3_erwvk"]
 [ext_resource type="Texture2D" uid="uid://dfp7iern2q72n" path="res://assets/HeartsFrame1.png" id="3_jw32o"]
 [ext_resource type="Texture2D" uid="uid://spab0tbhbikw" path="res://assets/background.png" id="3_v1gob"]
+[ext_resource type="PackedScene" path="res://Scenes/Chicken_run.tscn" id="4_2w5on"]
 [ext_resource type="Texture2D" uid="uid://bp3ou4wxq2ylh" path="res://assets/HeartsFrame2.png" id="4_50glp"]
 [ext_resource type="PackedScene" uid="uid://de8ri08cgpinl" path="res://Scenes/CameraFrame.tscn" id="4_jw32o"]
+[ext_resource type="PackedScene" path="res://Scenes/Bat.tscn" id="5_346fj"]
 [ext_resource type="Texture2D" uid="uid://de82r2weassr0" path="res://assets/HeartsFrame3.png" id="5_vy5pj"]
 [ext_resource type="Script" uid="uid://cp3d0kqj1aql0" path="res://scripts/EduCard.gd" id="7_50glp"]
 [ext_resource type="Texture2D" uid="uid://c77uq8fgymp1j" path="res://assets/card_template.png" id="7_vy5pj"]
@@ -17,6 +20,8 @@
 [node name="Main" type="Node2D" unique_id=122853964]
 script = ExtResource("1_rgh2o")
 duck_scene = ExtResource("2_pbw6q")
+target_scenes = Array[PackedScene]([ExtResource("2_pbw6q"), ExtResource("3_erwvk"), ExtResource("4_2w5on")])
+zonk_scenes = Array[PackedScene]([ExtResource("5_346fj")])
 tex_heart_full = ExtResource("3_jw32o")
 tex_heart_half = ExtResource("4_50glp")
 tex_heart_empty = ExtResource("5_vy5pj")

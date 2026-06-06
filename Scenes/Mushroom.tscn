@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://x1nq2trmkl2h"]
 
-[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Duck.gd" id="1_i6ixy"]
+[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Target.gd" id="1_i6ixy"]
 [ext_resource type="Texture2D" uid="uid://bm35r0faiu3ld" path="res://assets/Cute Shroom 4.png" id="2_i6ixy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yy5cp"]
@@ -47,18 +47,15 @@ scale = Vector2(3, 3)
 script = ExtResource("1_i6ixy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
-position = Vector2(-1.1666666, -4.499999)
 scale = Vector2(0.90625, 0.9270834)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"
 frame_progress = 0.060709205
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
-position = Vector2(-0.33333588, 0)
 shape = SubResource("CircleShape2D_rvkc3")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1759359874]
-position = Vector2(0.33333334, 0.66666687)
 rect = Rect2(-9, -11, 16, 19)
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

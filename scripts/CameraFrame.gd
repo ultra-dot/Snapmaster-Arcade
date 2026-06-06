@@ -46,7 +46,6 @@ func _process(delta):
 						var snapshot = take_snapshot(valid_duck)
 						valid_duck.capture()
 						if gm:
-							gm.add_score(100)
 							if snapshot:
 								gm.register_capture(snapshot)
 						print("Snap! Captured target.")

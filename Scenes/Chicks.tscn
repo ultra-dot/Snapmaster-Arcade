@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cwhv6ferroahx"]
 
-[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Duck.gd" id="1_377m3"]
+[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Target.gd" id="1_377m3"]
 [ext_resource type="Texture2D" uid="uid://0crrrehd0dmk" path="res://assets/Cute Chicken 2 walk (1).png" id="2_377m3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0y4s5"]
@@ -61,18 +61,15 @@ scale = Vector2(3, 3)
 script = ExtResource("1_377m3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
-position = Vector2(0.3333335, 1.333334)
 scale = Vector2(0.6666667, 0.6666666)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"
 frame_progress = 0.2958261
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
-position = Vector2(-0.33333588, 0)
 shape = SubResource("CircleShape2D_rvkc3")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1759359874]
-position = Vector2(0.33333334, 0.66666687)
 rect = Rect2(-9, -11, 16, 19)
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

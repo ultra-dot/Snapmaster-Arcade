@@ -1,6 +1,8 @@
 extends Node
 
-@export var duck_scene: PackedScene
+@export var duck_scene: PackedScene # Fallback
+@export var target_scenes: Array[PackedScene] = []
+@export var zonk_scenes: Array[PackedScene] = []
 @export var spawn_interval: float = 2.0
 
 @export_group("Heart Textures")
@@ -86,17 +88,41 @@ func end_wave():
 
 func _on_spawn_timer_timeout():
 	if ducks_spawned < ducks_per_wave:
-		spawn_duck()
+		spawn_entity()
 		ducks_spawned += 1
 		
 		if ducks_spawned >= ducks_per_wave:
 			spawn_timer.stop() # Stop spawning for this wave
 
 
-func spawn_duck():
-	if not duck_scene: return
+func spawn_entity():
+	var scene_to_spawn = duck_scene
+	var is_spawning_zonk = false
 	
-	var duck = duck_scene.instantiate()
+	# 20% chance to spawn a Zonk if zonk_scenes are provided
+	if zonk_scenes.size() > 0 and randf() < 0.2:
+		scene_to_spawn = zonk_scenes[randi() % zonk_scenes.size()]
+		is_spawning_zonk = true
+	elif target_scenes.size() > 0:
+		scene_to_spawn = target_scenes[randi() % target_scenes.size()]
+		
+	if not scene_to_spawn: return
+	
+	var entity = scene_to_spawn.instantiate()
+	
+	# Randomize Size (Tiny, Normal, Giant) for Normal Targets
+	if not is_spawning_zonk:
+		var scale_chance = randf()
+		if scale_chance < 0.15:
+			# Giant (Slow, Low points)
+			entity.scale *= 2.0
+			entity.base_speed *= 0.5
+			entity.point_value = 50
+		elif scale_chance < 0.30:
+			# Tiny (Fast, High points)
+			entity.scale *= 0.5
+			entity.base_speed *= 1.5
+			entity.point_value = 300
 	
 	# Randomize spawn side (0 = left, 1 = right)
 	var spawn_side = randi() % 2
@@ -106,20 +132,19 @@ func spawn_duck():
 	
 	if spawn_side == 0:
 		# Left spawn
-		duck.global_position = Vector2(-100, spawn_y)
-		duck.direction = 1
+		entity.global_position = Vector2(-100, spawn_y)
+		entity.direction = 1
 	else:
 		# Right spawn
-		duck.global_position = Vector2(screen_size.x + 100, spawn_y)
-		duck.direction = -1
-		duck.scale.x = -abs(duck.scale.x) # Flip sprite
+		entity.global_position = Vector2(screen_size.x + 100, spawn_y)
+		entity.direction = -1
 		
-	# Add duck to the spawner container or main tree
+	# Add entity to the spawner container or main tree
 	var spawner = get_node_or_null("DuckSpawner")
 	if spawner:
-		spawner.add_child(duck)
+		spawner.add_child(entity)
 	else:
-		add_child(duck)
+		add_child(entity)
 
 func add_score(amount: int):
 	score += amount
