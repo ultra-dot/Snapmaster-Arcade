@@ -40,6 +40,13 @@ func _ready():
 	start_wave(current_wave)
 	update_hud()
 	add_to_group("game_manager")
+	
+	# Setup button effects
+	var game_over_panel = $HUD.get_node_or_null("GameOverPanel")
+	if game_over_panel:
+		_add_button_effects(game_over_panel.get_node_or_null("HomeButton"))
+		_add_button_effects(game_over_panel.get_node_or_null("RetryButton"))
+		_add_button_effects(game_over_panel.get_node_or_null("SettingButton"))
 
 func start_wave(wave: int):
 	ducks_spawned = 0
@@ -154,7 +161,7 @@ func game_over():
 	
 	var game_over_panel = $HUD.get_node_or_null("GameOverPanel")
 	if game_over_panel:
-		var final_score_label = game_over_panel.get_node_or_null("VBoxContainer/FinalScoreLabel")
+		var final_score_label = game_over_panel.get_node_or_null("FinalScoreLabel")
 		if final_score_label:
 			final_score_label.text = "Final Score: " + str(score)
 		game_over_panel.show()
@@ -168,3 +175,38 @@ func restart_game():
 
 func return_to_menu():
 	get_tree().change_scene_to_file("res://Scenes/MainMenu.tscn")
+
+# --- FUNGSI EFEK TOMBOL OTOMATIS ---
+func _add_button_effects(btn: TextureButton):
+	if not btn: return
+	
+	# Set pivot offset to center for smooth scaling
+	btn.pivot_offset = btn.custom_minimum_size / 2.0
+	
+	# Efek pas mouse masuk (Hover)
+	btn.mouse_entered.connect(func():
+		var tween = create_tween()
+		tween.tween_property(btn, "scale", Vector2(1.1, 1.1), 0.1) # Membesar
+		tween.parallel().tween_property(btn, "modulate", Color(1.2, 1.2, 1.2), 0.1) # Agak terang
+	)
+	
+	# Efek pas mouse keluar
+	btn.mouse_exited.connect(func():
+		var tween = create_tween()
+		tween.tween_property(btn, "scale", Vector2(1.0, 1.0), 0.1) # Balik normal
+		tween.parallel().tween_property(btn, "modulate", Color(1.0, 1.0, 1.0), 0.1) # Warna normal
+	)
+	
+	# Efek pas tombol ditekan (Clicked)
+	btn.button_down.connect(func():
+		var tween = create_tween()
+		tween.tween_property(btn, "scale", Vector2(0.9, 0.9), 0.05) # Mengecil
+		tween.parallel().tween_property(btn, "modulate", Color(0.8, 0.8, 0.8), 0.05) # Agak gelap
+	)
+	
+	# Efek pas tombol dilepas
+	btn.button_up.connect(func():
+		var tween = create_tween()
+		tween.tween_property(btn, "scale", Vector2(1.1, 1.1), 0.1) # Balik ke ukuran hover
+		tween.parallel().tween_property(btn, "modulate", Color(1.2, 1.2, 1.2), 0.1)
+	)

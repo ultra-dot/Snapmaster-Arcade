@@ -9,6 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://de82r2weassr0" path="res://assets/HeartsFrame3.png" id="5_vy5pj"]
 [ext_resource type="Script" uid="uid://cp3d0kqj1aql0" path="res://scripts/EduCard.gd" id="7_50glp"]
 [ext_resource type="Texture2D" uid="uid://c77uq8fgymp1j" path="res://assets/card_template.png" id="7_vy5pj"]
+[ext_resource type="Texture2D" uid="uid://cqcujwa8idjou" path="res://assets/buttons/home_button.png" id="tex_go_home"]
+[ext_resource type="Texture2D" uid="uid://ctbsso6fwf0tj" path="res://assets/buttons/game over_logo.png" id="tex_go_logo"]
+[ext_resource type="Texture2D" uid="uid://ck1x8hndjvnb4" path="res://assets/buttons/retry_button.png" id="tex_go_retry"]
+[ext_resource type="Texture2D" uid="uid://2m73ewsrxvli" path="res://assets/buttons/setting_button.png" id="tex_go_setting"]
 
 [node name="Main" type="Node2D" unique_id=122853964]
 script = ExtResource("1_rgh2o")
@@ -36,6 +40,16 @@ offset_bottom = 50.0
 scale = Vector2(2, 2)
 text = "Score Label"
 
+[node name="WaveLabel" type="Label" parent="HUD" unique_id=475809817]
+offset_left = 33.0
+offset_top = 66.0
+offset_right = 122.0
+offset_bottom = 89.0
+scale = Vector2(2, 2)
+theme_override_font_sizes/font_size = 16
+text = "Wave"
+vertical_alignment = 1
+
 [node name="HeartsContainer" type="HBoxContainer" parent="HUD" unique_id=1401259691]
 offset_left = 1091.0
 offset_top = 19.0
@@ -58,36 +72,108 @@ layout_mode = 2
 texture = ExtResource("3_jw32o")
 stretch_mode = 2
 
-[node name="GameOverPanel" type="PanelContainer" parent="HUD" unique_id=180022951]
+[node name="GameOverPanel" type="Control" parent="HUD" unique_id=180022951]
 visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlurOverlay" type="ColorRect" parent="HUD/GameOverPanel" unique_id=98848225]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="GameOverImage" type="TextureRect" parent="HUD/GameOverPanel" unique_id=338669826]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -46.0
-offset_top = -42.5
-offset_right = 46.0
-offset_bottom = 42.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 611.0
+offset_bottom = 57.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("tex_go_logo")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/GameOverPanel" unique_id=828959309]
-layout_mode = 2
-
-[node name="GameOver" type="Label" parent="HUD/GameOverPanel/VBoxContainer" unique_id=338669826]
-layout_mode = 2
-text = "GAME	 OVER"
+[node name="FinalScoreLabel" type="Label" parent="HUD/GameOverPanel" unique_id=2103123168]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -99.0
+offset_top = -57.0
+offset_right = 101.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Final Score: 0"
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="FinalScoreLabel" type="Label" parent="HUD/GameOverPanel/VBoxContainer" unique_id=2103123168]
-layout_mode = 2
-text = "Final Score"
+[node name="SettingButton" type="TextureButton" parent="HUD/GameOverPanel" unique_id=1961599340]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -4.0
+offset_right = 159.33325
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("tex_go_setting")
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="PlayAgain" type="Button" parent="HUD/GameOverPanel/VBoxContainer" unique_id=267383415]
-layout_mode = 2
-text = "Play Again"
+[node name="RetryButton" type="TextureButton" parent="HUD/GameOverPanel" unique_id=2072575517]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.0
+offset_top = 96.0
+offset_right = 7.0
+offset_bottom = 174.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("tex_go_retry")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="HomeButton" type="TextureButton" parent="HUD/GameOverPanel" unique_id=189947122]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = 94.0
+offset_right = 201.0
+offset_bottom = 178.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("tex_go_home")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="EduCard" type="TextureRect" parent="HUD" unique_id=1148050499]
 visible = false
@@ -162,18 +248,9 @@ offset_right = 796.6667
 offset_bottom = 1569.9999
 text = "SELANJUTNYA"
 
-[node name="WaveLabel" type="Label" parent="HUD" unique_id=475809817]
-offset_left = 33.0
-offset_top = 66.0
-offset_right = 122.0
-offset_bottom = 89.0
-scale = Vector2(2, 2)
-theme_override_font_sizes/font_size = 16
-text = "Wave"
-vertical_alignment = 1
-
 [node name="CameraFrame" parent="." unique_id=1922902824 instance=ExtResource("4_jw32o")]
 position = Vector2(199, 75)
 scale = Vector2(2, 2)
 
-[connection signal="pressed" from="HUD/GameOverPanel/VBoxContainer/PlayAgain" to="." method="restart_game"]
+[connection signal="pressed" from="HUD/GameOverPanel/RetryButton" to="." method="restart_game"]
+[connection signal="pressed" from="HUD/GameOverPanel/HomeButton" to="." method="return_to_menu"]
