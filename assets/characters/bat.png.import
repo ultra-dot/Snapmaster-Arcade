@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2h2vnpvmnfwf"
-path="res://.godot/imported/little-bear-walk.png-db681247e48bb22734584de9de959f23.ctex"
+uid="uid://rm4ymis3kxsw"
+path="res://.godot/imported/bat.png-b52dcdbfb0aa69be68763c01a81fd205.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/little-bear-walk.png"
-dest_files=["res://.godot/imported/little-bear-walk.png-db681247e48bb22734584de9de959f23.ctex"]
+source_file="res://assets/characters/bat.png"
+dest_files=["res://.godot/imported/bat.png-b52dcdbfb0aa69be68763c01a81fd205.ctex"]
 
 [params]
 

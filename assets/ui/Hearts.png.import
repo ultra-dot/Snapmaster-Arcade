@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4ax6vpy0eeox"
-path="res://.godot/imported/zombie-walk.png-eab160273b0dde92c4e001a69cac5ba2.ctex"
+uid="uid://1aklsmic5qr2"
+path="res://.godot/imported/Hearts.png-6822f82e8c70207c0ce6d900ddce829f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/zombie-walk.png"
-dest_files=["res://.godot/imported/zombie-walk.png-eab160273b0dde92c4e001a69cac5ba2.ctex"]
+source_file="res://assets/ui/Hearts.png"
+dest_files=["res://.godot/imported/Hearts.png-6822f82e8c70207c0ce6d900ddce829f.ctex"]
 
 [params]
 

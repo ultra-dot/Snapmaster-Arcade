@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rm4ymis3kxsw"
-path="res://.godot/imported/bat.png-b26f11b952f683bf21c057ff6fd863c3.ctex"
+uid="uid://bm35r0faiu3ld"
+path="res://.godot/imported/Cute Shroom 4.png-3b4031aa487c270a6fd6b7fc689a071b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/bat.png"
-dest_files=["res://.godot/imported/bat.png-b26f11b952f683bf21c057ff6fd863c3.ctex"]
+source_file="res://assets/characters/Cute Shroom 4.png"
+dest_files=["res://.godot/imported/Cute Shroom 4.png-3b4031aa487c270a6fd6b7fc689a071b.ctex"]
 
 [params]
 

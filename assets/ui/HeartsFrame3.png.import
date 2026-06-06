@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rdyuofoci1lj"
-path="res://.godot/imported/cute chicken run.png-d2e193085cd7097fe0e57f9aa63b7f9d.ctex"
+uid="uid://de82r2weassr0"
+path="res://.godot/imported/HeartsFrame3.png-296ca82328fc960ac576e8fd135a2027.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cute chicken run.png"
-dest_files=["res://.godot/imported/cute chicken run.png-d2e193085cd7097fe0e57f9aa63b7f9d.ctex"]
+source_file="res://assets/ui/HeartsFrame3.png"
+dest_files=["res://.godot/imported/HeartsFrame3.png-296ca82328fc960ac576e8fd135a2027.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxeljq7vk0ncs"
-path="res://.godot/imported/cute chicken idle.png-3463f74dd2e95108acb696b86c33db08.ctex"
+uid="uid://d4ax6vpy0eeox"
+path="res://.godot/imported/zombie-walk.png-1898cf4ee7ceccd5ece1b5cfce8ea685.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cute chicken idle.png"
-dest_files=["res://.godot/imported/cute chicken idle.png-3463f74dd2e95108acb696b86c33db08.ctex"]
+source_file="res://assets/characters/zombie-walk.png"
+dest_files=["res://.godot/imported/zombie-walk.png-1898cf4ee7ceccd5ece1b5cfce8ea685.ctex"]
 
 [params]
 

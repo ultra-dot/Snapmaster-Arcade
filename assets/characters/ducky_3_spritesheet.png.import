@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfp7iern2q72n"
-path="res://.godot/imported/HeartsFrame1.png-49e0619252c55e2b24b80909623b20c6.ctex"
+uid="uid://bmma4wmfnkdhl"
+path="res://.godot/imported/ducky_3_spritesheet.png-7216293d276d1df6e6d9a820f97ac972.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/HeartsFrame1.png"
-dest_files=["res://.godot/imported/HeartsFrame1.png-49e0619252c55e2b24b80909623b20c6.ctex"]
+source_file="res://assets/characters/ducky_3_spritesheet.png"
+dest_files=["res://.godot/imported/ducky_3_spritesheet.png-7216293d276d1df6e6d9a820f97ac972.ctex"]
 
 [params]
 

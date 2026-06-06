@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dai6y5u1d5mcf"
-path="res://.godot/imported/frog_spritesheet.png-7c29182efc3349eebdc85334c66d62a7.ctex"
+uid="uid://rdyuofoci1lj"
+path="res://.godot/imported/cute chicken run.png-e17d62b488f3f7b7bf5d0c83e5ebb5f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/frog_spritesheet.png"
-dest_files=["res://.godot/imported/frog_spritesheet.png-7c29182efc3349eebdc85334c66d62a7.ctex"]
+source_file="res://assets/characters/cute chicken run.png"
+dest_files=["res://.godot/imported/cute chicken run.png-e17d62b488f3f7b7bf5d0c83e5ebb5f9.ctex"]
 
 [params]
 

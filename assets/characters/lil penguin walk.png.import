@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkd556f71r6dk"
-path="res://.godot/imported/skeleton-walk.png-302d6734d45904b5d150821023a4fb94.ctex"
+uid="uid://dm0g66a4vihwf"
+path="res://.godot/imported/lil penguin walk.png-65a7f77f1ed4b4cb2a08691e82bd168f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/skeleton-walk.png"
-dest_files=["res://.godot/imported/skeleton-walk.png-302d6734d45904b5d150821023a4fb94.ctex"]
+source_file="res://assets/characters/lil penguin walk.png"
+dest_files=["res://.godot/imported/lil penguin walk.png-65a7f77f1ed4b4cb2a08691e82bd168f.ctex"]
 
 [params]
 

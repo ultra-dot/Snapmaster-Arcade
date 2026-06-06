@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://0crrrehd0dmk"
-path="res://.godot/imported/Cute Chicken 2 walk (1).png-22ede20facf5fcc5cb0eac4add1c4d74.ctex"
+uid="uid://dqx8uj7j20de8"
+path="res://.godot/imported/piggy_sheet (1).png-237bf68ca3097810493b84fdb8a49e15.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Cute Chicken 2 walk (1).png"
-dest_files=["res://.godot/imported/Cute Chicken 2 walk (1).png-22ede20facf5fcc5cb0eac4add1c4d74.ctex"]
+source_file="res://assets/characters/piggy_sheet (1).png"
+dest_files=["res://.godot/imported/piggy_sheet (1).png-237bf68ca3097810493b84fdb8a49e15.ctex"]
 
 [params]
 

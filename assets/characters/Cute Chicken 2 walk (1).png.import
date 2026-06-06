@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://baapooxy6mx7n"
-path="res://.godot/imported/knight_spritesheet (1).png-0e2fd13e3453e75d2cb35a1777baa656.ctex"
+uid="uid://0crrrehd0dmk"
+path="res://.godot/imported/Cute Chicken 2 walk (1).png-1eaa2786ea25da741ff3483dee4e57dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/knight_spritesheet (1).png"
-dest_files=["res://.godot/imported/knight_spritesheet (1).png-0e2fd13e3453e75d2cb35a1777baa656.ctex"]
+source_file="res://assets/characters/Cute Chicken 2 walk (1).png"
+dest_files=["res://.godot/imported/Cute Chicken 2 walk (1).png-1eaa2786ea25da741ff3483dee4e57dc.ctex"]
 
 [params]
 

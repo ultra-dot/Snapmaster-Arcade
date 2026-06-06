@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bm35r0faiu3ld"
-path="res://.godot/imported/Cute Shroom 4.png-d2e291de1cdad492a706ebb8e003dc26.ctex"
+uid="uid://mvvmp0cg6w4a"
+path="res://.godot/imported/ducky-idle.png-24a269ea42d23dbe1e2a8f632c60abde.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Cute Shroom 4.png"
-dest_files=["res://.godot/imported/Cute Shroom 4.png-d2e291de1cdad492a706ebb8e003dc26.ctex"]
+source_file="res://assets/characters/ducky-idle.png"
+dest_files=["res://.godot/imported/ducky-idle.png-24a269ea42d23dbe1e2a8f632c60abde.ctex"]
 
 [params]
 

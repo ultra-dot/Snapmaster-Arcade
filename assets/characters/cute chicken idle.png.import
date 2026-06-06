@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1aklsmic5qr2"
-path="res://.godot/imported/Hearts.png-ef44ca602289701692674059a9d1e692.ctex"
+uid="uid://dxeljq7vk0ncs"
+path="res://.godot/imported/cute chicken idle.png-272bf48149a32d100d2a8025fc1980fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Hearts.png"
-dest_files=["res://.godot/imported/Hearts.png-ef44ca602289701692674059a9d1e692.ctex"]
+source_file="res://assets/characters/cute chicken idle.png"
+dest_files=["res://.godot/imported/cute chicken idle.png-272bf48149a32d100d2a8025fc1980fa.ctex"]
 
 [params]
 

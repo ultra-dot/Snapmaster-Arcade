@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmma4wmfnkdhl"
-path="res://.godot/imported/ducky_3_spritesheet.png-3404201d4f17349fc72aca49aa51ec18.ctex"
+uid="uid://dai6y5u1d5mcf"
+path="res://.godot/imported/frog_spritesheet.png-4e9e15b91eeb85c59fd9d7d3327b7199.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ducky_3_spritesheet.png"
-dest_files=["res://.godot/imported/ducky_3_spritesheet.png-3404201d4f17349fc72aca49aa51ec18.ctex"]
+source_file="res://assets/characters/frog_spritesheet.png"
+dest_files=["res://.godot/imported/frog_spritesheet.png-4e9e15b91eeb85c59fd9d7d3327b7199.ctex"]
 
 [params]
 

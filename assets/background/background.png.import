@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mvvmp0cg6w4a"
-path="res://.godot/imported/ducky-idle.png-384a382cfb80318373381e946143aae4.ctex"
+uid="uid://spab0tbhbikw"
+path="res://.godot/imported/background.png-af8116bd94e27df8cdb7b0ec54dd4e56.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ducky-idle.png"
-dest_files=["res://.godot/imported/ducky-idle.png-384a382cfb80318373381e946143aae4.ctex"]
+source_file="res://assets/background/background.png"
+dest_files=["res://.godot/imported/background.png-af8116bd94e27df8cdb7b0ec54dd4e56.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de82r2weassr0"
-path="res://.godot/imported/HeartsFrame3.png-3ad448947fbaf53fdd8bd15dd9e7de00.ctex"
+uid="uid://bhlqfnabv7yf4"
+path="res://.godot/imported/frame.svg-e2aad777c31aaf5e0634a2f052cf440b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/HeartsFrame3.png"
-dest_files=["res://.godot/imported/HeartsFrame3.png-3ad448947fbaf53fdd8bd15dd9e7de00.ctex"]
+source_file="res://assets/ui/frame.svg"
+dest_files=["res://.godot/imported/frame.svg-e2aad777c31aaf5e0634a2f052cf440b.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

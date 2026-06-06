@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bieevs42a0gs8"
-path="res://.godot/imported/spr_slime_move_1.png-5f156e7aa9e4aa679b725db4cab79ae6.ctex"
+uid="uid://cml66ngo2leg5"
+path="res://.godot/imported/PolarBear.png-ab7bb4f9b1e58e406e79966dfb0c340e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/spr_slime_move_1.png"
-dest_files=["res://.godot/imported/spr_slime_move_1.png-5f156e7aa9e4aa679b725db4cab79ae6.ctex"]
+source_file="res://assets/characters/PolarBear.png"
+dest_files=["res://.godot/imported/PolarBear.png-ab7bb4f9b1e58e406e79966dfb0c340e.ctex"]
 
 [params]
 

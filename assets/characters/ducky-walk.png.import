@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhlqfnabv7yf4"
-path="res://.godot/imported/frame.svg-d1e56f2660dd20ec4d4a6e354cdd39e7.ctex"
+uid="uid://8i3qjvgmsqb2"
+path="res://.godot/imported/ducky-walk.png-a5b04070b1d998b436f3cd38f4cf606e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/frame.svg"
-dest_files=["res://.godot/imported/frame.svg-d1e56f2660dd20ec4d4a6e354cdd39e7.ctex"]
+source_file="res://assets/characters/ducky-walk.png"
+dest_files=["res://.godot/imported/ducky-walk.png-a5b04070b1d998b436f3cd38f4cf606e.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
