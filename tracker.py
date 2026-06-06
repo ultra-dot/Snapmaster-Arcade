@@ -9,7 +9,7 @@ serverAddressPort = ("127.0.0.1", 5050)
 # Setup MediaPipe
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
-hands = mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
+hands = mp_hands.Hands(max_num_hands=4, min_detection_confidence=0.8)
 
 cap = cv2.VideoCapture(4)
 

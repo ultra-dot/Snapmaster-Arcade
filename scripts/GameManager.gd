@@ -12,23 +12,79 @@ var score: int = 0
 var current_health: int = 6 # 3 hearts * 2 halves
 var max_health: int = 6
 var screen_size: Vector2
+var is_game_over_state: bool = false
+
+# Wave System
+var current_wave: int = 1
+var ducks_per_wave: int = 5
+var ducks_spawned: int = 0
+var ducks_resolved: int = 0 # Count of ducks captured + escaped
+var last_snapshot: ImageTexture = null
+
+# Edu Data Dictionary
+var species_data = {
+	1: {"name": "Bebek Mallard", "latin": "Anas platyrhynchos", "desc": "Bebek liar yang paling umum dijumpai. Sangat mudah beradaptasi."},
+	2: {"name": "Bebek Kayu", "latin": "Aix sponsa", "desc": "Bebek berbulu sangat indah yang suka bertengger di pepohonan."},
+	3: {"name": "Katak Hijau", "latin": "Lithobates clamitans", "desc": "Bisa diam berjam-jam, tapi lompatannya sangat cepat!"},
+	4: {"name": "Bebek Misterius", "latin": "Anatidae ignotus", "desc": "Sangat cepat dan langka. Jangan sampai lepas!"}
+}
 
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var score_label: Label = $HUD/ScoreLabel
 @onready var hearts_container: HBoxContainer = $HUD/HeartsContainer
+@onready var hud: CanvasLayer = $HUD
 
 func _ready():
 	screen_size = get_viewport().get_visible_rect().size
-	spawn_timer.wait_time = spawn_interval
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
-	spawn_timer.start()
+	start_wave(current_wave)
 	update_hud()
-	
-	# Add GameManager to group for easy access
 	add_to_group("game_manager")
 
+func start_wave(wave: int):
+	ducks_spawned = 0
+	ducks_resolved = 0
+	last_snapshot = null
+	
+	# Increase difficulty
+	spawn_interval = max(0.5, 2.0 - (wave * 0.2))
+	spawn_timer.wait_time = spawn_interval
+	spawn_timer.start()
+	print("Starting Wave: ", wave)
+	update_hud()
+
+func register_capture(snapshot: ImageTexture):
+	last_snapshot = snapshot
+
+func duck_resolved():
+	ducks_resolved += 1
+	if ducks_resolved >= ducks_per_wave:
+		end_wave()
+
+func end_wave():
+	if is_game_over_state: return
+	
+	print("Wave ", current_wave, " complete!")
+	var edu_card = $HUD.get_node_or_null("EduCard")
+	
+	if edu_card and species_data.has(current_wave):
+		# Show the educational card and pause the wave progression
+		# The EduCard's "Next" button will start the next wave
+		edu_card.show_card(species_data[current_wave], last_snapshot)
+	else:
+		# Fallback if card isn't ready or we run out of data
+		await get_tree().create_timer(3.0).timeout
+		current_wave += 1
+		start_wave(current_wave)
+
 func _on_spawn_timer_timeout():
-	spawn_duck()
+	if ducks_spawned < ducks_per_wave:
+		spawn_duck()
+		ducks_spawned += 1
+		
+		if ducks_spawned >= ducks_per_wave:
+			spawn_timer.stop() # Stop spawning for this wave
+
 
 func spawn_duck():
 	if not duck_scene: return
@@ -70,8 +126,11 @@ func lose_life():
 
 func update_hud():
 	if score_label:
-		# Format score with leading zeros
 		score_label.text = "SCORE: %05d" % score
+		
+	var wave_label = $HUD.get_node_or_null("WaveLabel")
+	if wave_label:
+		wave_label.text = "WAVE: " + str(current_wave)
 		
 	if hearts_container:
 		# Update heart textures based on current health (Zelda style)
@@ -88,8 +147,24 @@ func update_hud():
 				hearts[i].texture = tex_heart_empty
 
 func game_over():
+	if is_game_over_state: return
+	is_game_over_state = true
 	print("Game Over! Final Score: ", score)
 	spawn_timer.stop()
-	# For now, just restart after 2 seconds
-	await get_tree().create_timer(2.0).timeout
+	
+	var game_over_panel = $HUD.get_node_or_null("GameOverPanel")
+	if game_over_panel:
+		var final_score_label = game_over_panel.get_node_or_null("VBoxContainer/FinalScoreLabel")
+		if final_score_label:
+			final_score_label.text = "Final Score: " + str(score)
+		game_over_panel.show()
+	else:
+		# Fallback if UI not created yet
+		await get_tree().create_timer(2.0).timeout
+		restart_game()
+
+func restart_game():
 	get_tree().reload_current_scene()
+
+func return_to_menu():
+	get_tree().change_scene_to_file("res://Scenes/MainMenu.tscn")

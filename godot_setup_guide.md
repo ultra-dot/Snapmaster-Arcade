@@ -116,3 +116,106 @@ Ini adalah level atau ruangan utama di mana gamenya dimainkan.
   Tekan **F5** di keyboard kamu.
 
 *Selamat! Game kamu harusnya sudah berjalan. Ada target yang lewat, dan kotak ngikutin mouse kamu.*
+
+---
+
+## 🟩 CHECKPOINT 6: Setup UI Edukasi & Game Over (Phase 1 Polish)
+Ini adalah langkah terakhir untuk Phase 1, di mana kita membuat layar Game Over dan Kartu Spesies.
+
+- [ ] **1. Bikin Tampilan Game Over:**
+  Di *Scene* `Main`, klik kanan node `HUD` -> **Add Child Node** -> `PanelContainer`.
+  - Ganti namanya jadi persis: **`GameOverPanel`**.
+  - Masukin node `VBoxContainer` ke dalemnya.
+  - Masukin 2 `Label` ke dalem VBox itu. Yang satu tulis teksnya "GAME OVER", nah yang satu lagi wajib lu kasih nama **`FinalScoreLabel`**.
+  - Masukin `Button` di bawah labelnya, tulis teksnya "Main Lagi". 
+  - Sembunyiin `GameOverPanel` ini (klik ikon mata biar merem).
+- [ ] **2. Connect Tombol Game Over:**
+  Klik tombol "Main Lagi" yang baru kamu buat. Buka tab **Node -> Signals** di kanan, klik 2x `pressed()`. 
+  - Sambungin ke `GameManager` (ada di node `Main`).
+  - Di jendela popup, pada kolom "Receiver Method", ganti/ketik manual jadi: **`restart_game`**.
+- [ ] **3. Bikin Kartu Edukasi (Edu Card):**
+  Klik kanan `HUD` -> **Add Child Node** -> `PanelContainer`.
+  - Ganti namanya jadi persis: **`EduCard`**.
+  - Buka panel FileSystem di kiri bawah, cari file script **`EduCard.gd`** di folder `scripts`, *drag n drop* file itu ke node `EduCard`.
+- [ ] **4. Struktur Kartu Edukasi:**
+  Bikin struktur *child* persis kayak gini di dalem `EduCard` (huruf besar/kecil ngaruh):
+  - Tambahkan `VBoxContainer`
+    - Tambahkan `TextureRect` ke dalam VBox (Ganti nama jadi **`PhotoRect`**)
+    - Tambahkan `Label` ke dalam VBox (Ganti nama jadi **`NameLabel`**)
+    - Tambahkan `Label` ke dalam VBox (Ganti nama jadi **`LatinLabel`**)
+    - Tambahkan `RichTextLabel` ke dalam VBox (Ganti nama jadi **`DescLabel`**)
+    - Tambahkan `Button` ke dalam VBox (Ganti nama jadi **`NextButton`**)
+  - Sembunyiin `EduCard` ini (klik ikon mata).
+- [ ] **5. Centering UI (Biar di tengah):**
+  Klik node `GameOverPanel` (panel yang paling luar), lalu klik ikon **Anchors Preset** (jangkar hijau) di bagian atas layar 2D. Pilih **Center**.
+  Lakukan hal yang sama persis untuk node `EduCard`.
+- [ ] **6. Desain Bebas!**
+  Kamu bisa bebas berkreasi mengubah warna, ukuran font, atau background panelnya menggunakan tab *Theme Overrides* di Inspector!
+
+---
+
+## 🟩 CHECKPOINT 7: Bikin Main Menu Custom (Pakai PNG Sendiri)
+Kita akan membuat layar awal game yang tombolnya pakai gambar buatanmu sendiri!
+
+- [ ] **1. Buat Scene Baru:**
+  Di menu paling atas, klik `Scene` -> `New Scene`.
+- [ ] **2. Pilih User Interface:**
+  Klik tombol hijau bertuliskan **User Interface** (otomatis membuat node bernama `Control`).
+- [ ] **3. Ganti Nama dan Pasang Script:**
+  Ganti nama node `Control` tadi menjadi `MainMenu`. Tarik file `MainMenu.gd` dari folder `scripts` dan lepas di node `MainMenu` ini.
+- [ ] **4. Tambah Background:**
+  Klik kanan pada node `MainMenu` -> **Add Child Node** -> Pilih `TextureRect`.
+  - Seret gambar *background* PNG-mu ke kolom `Texture` di Inspector.
+  - Atur **Layout Mode** (atau ikon jangkar) jadi **Full Rect** biar gambarnya menuhin layar.
+- [ ] **5. Tambah Tombol Kustom (TextureButton):**
+  Klik kanan pada node `MainMenu` -> **Add Child Node** -> Cari dan pilih **`TextureButton`**. Lakukan ini dua kali untuk tombol Play dan Quit.
+  - Ganti nama masing-masing jadi `PlayButton` dan `QuitButton`.
+- [ ] **6. Pasang Gambar PNG Tombolmu:**
+  Klik node `PlayButton`. Di Inspector sebelah kanan, buka bagian **Textures**.
+  - `Normal`: Seret PNG tombol play-mu saat biasa.
+  - `Pressed`: (Opsional) Seret PNG saat tombol sedang ditekan.
+  - `Hover`: (Opsional) Seret PNG saat *mouse* diarahkan ke tombol.
+  Lakukan hal yang sama untuk `QuitButton`. Lalu geser posisi kedua tombol ini bebas di mana saja di layar.
+- [ ] **7. Connect Signal Tombol:**
+  Klik `PlayButton`, buka tab **Signals** di kanan, *double-click* `pressed()`. Sambungkan ke node `MainMenu`, lalu klik Connect.
+  - Nanti akan terhubung ke fungsi `_on_play_button_pressed()`.
+  Lakukan hal yang sama untuk `QuitButton` (hubungkan ke `_on_quit_button_pressed()`).
+- [ ] **8. Save dan Jadikan Layar Pertama!**
+  - Tekan `Ctrl+S`, save dengan nama `MainMenu.tscn` di folder `Scenes`.
+  - Di menu atas, klik `Project` -> `Project Settings` -> tab `General`.
+  - Di bagian kiri, pilih `Application` -> `Run`.
+  - Di bagian `Main Scene`, klik lambang folder lalu pilih `res://Scenes/MainMenu.tscn`. Tutup jendela setting.
+
+Selesai! Kalau kamu tekan F5, game akan dibuka mulai dari layarmu ini!
+
+---
+
+## 🟩 CHECKPOINT 8: Rombak Game Over Pakai PNG Custom
+Kita akan mengganti tulisan "GAME OVER" dan tombol "Main Lagi" yang membosankan jadi gambar PNG-mu sendiri.
+
+- [ ] **1. Hapus UI Game Over Lama:**
+  Buka scene `Main.tscn`. Cari node `GameOverPanel` di dalam `HUD`.
+  - Hapus node `Label` (yang tulisannya "GAME OVER") dan node `Button` (yang tulisannya "Main Lagi") di dalam `VBoxContainer`.
+  - **PENTING:** Jangan hapus `FinalScoreLabel`!
+- [ ] **2. Tambah Tulisan Game Over (TextureRect):**
+  - Klik kanan `VBoxContainer` (di dalam `GameOverPanel`) -> **Add Child Node** -> Pilih `TextureRect`.
+  - Tarik ke urutan paling atas di dalam VBox (di atas `FinalScoreLabel`).
+  - Ganti namanya jadi `GameOverImage`.
+  - Seret file `gameover.png` milikmu ke kolom `Texture` di Inspector. Atur Stretch Mode jadi `Keep Aspect Centered` jika perlu.
+- [ ] **3. Buat Wadah Tombol (HBoxContainer):**
+  Biar tombol Home dan Retry bisa bersebelahan (kiri-kanan), kita butuh wadah horizontal.
+  - Klik kanan `VBoxContainer` -> **Add Child Node** -> Cari dan pilih `HBoxContainer`.
+  - Pastikan posisinya ada di urutan paling bawah (di bawah `FinalScoreLabel`).
+  - Di Inspector, atur `Alignment` jadi **Center**.
+- [ ] **4. Tambah Tombol Retry & Home (TextureButton):**
+  - Klik kanan `HBoxContainer` -> **Add Child Node** -> Pilih `TextureButton` (ganti nama jadi `RetryButton`).
+  - Klik kanan lagi `HBoxContainer` -> **Add Child Node** -> Pilih `TextureButton` (ganti nama jadi `HomeButton`).
+  - Masukkan PNG tombol retry-mu ke bagian `Textures -> Normal` milik `RetryButton`.
+  - Masukkan PNG tombol home-mu ke bagian `Textures -> Normal` milik `HomeButton`.
+- [ ] **5. Connect Signal Tombol ke GameManager:**
+  - Klik `RetryButton`, buka tab **Signals**, *double-click* `pressed()`. Sambungkan ke node `Main` (GameManager).
+    - Di kolom "Receiver Method", ketik manual: **`restart_game`**. Klik Connect.
+  - Klik `HomeButton`, buka tab **Signals**, *double-click* `pressed()`. Sambungkan ke node `Main` (GameManager).
+    - Di kolom "Receiver Method", ketik manual: **`return_to_menu`**. Klik Connect.
+
+Selesai! Sekarang Game Over kamu udah kelihatan jauh lebih pro!

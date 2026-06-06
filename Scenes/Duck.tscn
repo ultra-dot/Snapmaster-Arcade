@@ -47,17 +47,17 @@ scale = Vector2(3, 3)
 script = ExtResource("1_rvkc3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
-position = Vector2(34, -16)
+position = Vector2(-0.33333334, -12)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"
 frame_progress = 0.44236758
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
-position = Vector2(34, -3)
+position = Vector2(-0.33333588, 0)
 shape = SubResource("CircleShape2D_rvkc3")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1759359874]
-position = Vector2(35, -3)
+position = Vector2(0.33333334, 0.66666687)
 rect = Rect2(-9, -11, 16, 19)
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
