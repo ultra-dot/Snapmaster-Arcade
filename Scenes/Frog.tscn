@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://dc882vaaqnwo5"]
+
+[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Duck.gd" id="1_evecu"]
+[ext_resource type="Texture2D" uid="uid://dai6y5u1d5mcf" path="res://assets/frog_spritesheet.png" id="2_evecu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2kjn"]
+atlas = ExtResource("2_evecu")
+region = Rect2(0, 32, 56, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqyq2"]
+atlas = ExtResource("2_evecu")
+region = Rect2(56, 32, 56, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7v6p"]
+atlas = ExtResource("2_evecu")
+region = Rect2(112, 32, 56, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_peq77"]
+atlas = ExtResource("2_evecu")
+region = Rect2(168, 32, 56, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dlqxu"]
+atlas = ExtResource("2_evecu")
+region = Rect2(224, 32, 56, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83710"]
+atlas = ExtResource("2_evecu")
+region = Rect2(280, 32, 56, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2md2"]
+atlas = ExtResource("2_evecu")
+region = Rect2(336, 32, 56, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_al80u"]
+atlas = ExtResource("2_evecu")
+region = Rect2(392, 32, 56, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_enhka"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2kjn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sqyq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7v6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_peq77")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dlqxu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83710")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2md2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_al80u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rvkc3"]
+radius = 8.0
+
+[node name="Frog" type="Area2D" unique_id=637575940]
+scale = Vector2(3, 3)
+script = ExtResource("1_evecu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
+position = Vector2(3.3333335, -0.33333337)
+scale = Vector2(0.8229167, 0.84374994)
+sprite_frames = SubResource("SpriteFrames_enhka")
+autoplay = "default"
+frame_progress = 0.2921551
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
+position = Vector2(-0.33333588, 0)
+shape = SubResource("CircleShape2D_rvkc3")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1759359874]
+position = Vector2(0.33333334, 0.66666687)
+rect = Rect2(-9, -11, 16, 19)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

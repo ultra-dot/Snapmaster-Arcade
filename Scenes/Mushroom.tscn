@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://x1nq2trmkl2h"]
+
+[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Duck.gd" id="1_i6ixy"]
+[ext_resource type="Texture2D" uid="uid://bm35r0faiu3ld" path="res://assets/Cute Shroom 4.png" id="2_i6ixy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yy5cp"]
+atlas = ExtResource("2_i6ixy")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cv8f"]
+atlas = ExtResource("2_i6ixy")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smnd8"]
+atlas = ExtResource("2_i6ixy")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj4ps"]
+atlas = ExtResource("2_i6ixy")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_enhka"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yy5cp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1cv8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smnd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oj4ps")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rvkc3"]
+radius = 8.0
+
+[node name="Mushroom" type="Area2D" unique_id=637575940]
+scale = Vector2(3, 3)
+script = ExtResource("1_i6ixy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
+position = Vector2(-1.1666666, -4.499999)
+scale = Vector2(0.90625, 0.9270834)
+sprite_frames = SubResource("SpriteFrames_enhka")
+autoplay = "default"
+frame_progress = 0.060709205
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
+position = Vector2(-0.33333588, 0)
+shape = SubResource("CircleShape2D_rvkc3")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1759359874]
+position = Vector2(0.33333334, 0.66666687)
+rect = Rect2(-9, -11, 16, 19)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

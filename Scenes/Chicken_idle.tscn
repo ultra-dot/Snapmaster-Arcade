@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cw3tlx58eerwk"]
+
+[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Duck.gd" id="1_x7qt4"]
+[ext_resource type="Texture2D" uid="uid://rdyuofoci1lj" path="res://assets/cute chicken run.png" id="2_137yh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ni6pk"]
+atlas = ExtResource("2_137yh")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1xrn"]
+atlas = ExtResource("2_137yh")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_enhka"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ni6pk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1xrn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rvkc3"]
+radius = 8.0
+
+[node name="Chicken_idle" type="Area2D" unique_id=637575940]
+scale = Vector2(3, 3)
+script = ExtResource("1_x7qt4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
+position = Vector2(-0.66666603, 0.66666603)
+scale = Vector2(0.5659722, 0.5555555)
+sprite_frames = SubResource("SpriteFrames_enhka")
+autoplay = "default"
+frame_progress = 0.048395026
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
+position = Vector2(-0.33333588, 0)
+shape = SubResource("CircleShape2D_rvkc3")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1759359874]
+position = Vector2(0.33333334, 0.66666687)
+rect = Rect2(-9, -11, 17, 19.666668)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
