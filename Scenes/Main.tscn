@@ -2,16 +2,17 @@
 
 [ext_resource type="Script" uid="uid://ehdfqpo5g8vg" path="res://scripts/GameManager.gd" id="1_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://ctimvawit4yj3" path="res://Scenes/Duck.tscn" id="2_pbw6q"]
-[ext_resource type="PackedScene" path="res://Scenes/Frog.tscn" id="3_erwvk"]
+[ext_resource type="PackedScene" uid="uid://dc882vaaqnwo5" path="res://Scenes/Frog.tscn" id="3_erwvk"]
 [ext_resource type="Texture2D" uid="uid://dfp7iern2q72n" path="res://assets/HeartsFrame1.png" id="3_jw32o"]
 [ext_resource type="Texture2D" uid="uid://spab0tbhbikw" path="res://assets/background.png" id="3_v1gob"]
-[ext_resource type="PackedScene" path="res://Scenes/Chicken_run.tscn" id="4_2w5on"]
+[ext_resource type="PackedScene" uid="uid://dumy8bul03coe" path="res://Scenes/Chicken_run.tscn" id="4_2w5on"]
 [ext_resource type="Texture2D" uid="uid://bp3ou4wxq2ylh" path="res://assets/HeartsFrame2.png" id="4_50glp"]
 [ext_resource type="PackedScene" uid="uid://de8ri08cgpinl" path="res://Scenes/CameraFrame.tscn" id="4_jw32o"]
-[ext_resource type="PackedScene" path="res://Scenes/Bat.tscn" id="5_346fj"]
+[ext_resource type="PackedScene" uid="uid://c2fugx6xx32g4" path="res://Scenes/Bat.tscn" id="5_346fj"]
 [ext_resource type="Texture2D" uid="uid://de82r2weassr0" path="res://assets/HeartsFrame3.png" id="5_vy5pj"]
 [ext_resource type="Script" uid="uid://cp3d0kqj1aql0" path="res://scripts/EduCard.gd" id="7_50glp"]
 [ext_resource type="Texture2D" uid="uid://c77uq8fgymp1j" path="res://assets/card_template.png" id="7_vy5pj"]
+[ext_resource type="Texture2D" uid="uid://ch4m0spay2h02" path="res://assets/buttons/continue_button.png" id="tex_continue"]
 [ext_resource type="Texture2D" uid="uid://cqcujwa8idjou" path="res://assets/buttons/home_button.png" id="tex_go_home"]
 [ext_resource type="Texture2D" uid="uid://ctbsso6fwf0tj" path="res://assets/buttons/game over_logo.png" id="tex_go_logo"]
 [ext_resource type="Texture2D" uid="uid://ck1x8hndjvnb4" path="res://assets/buttons/retry_button.png" id="tex_go_retry"]
@@ -245,13 +246,15 @@ theme_override_font_sizes/mono_font_size = 30
 text = "LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM"
 horizontal_alignment = 3
 
-[node name="NextButton" type="Button" parent="HUD/EduCard" unique_id=302496046]
+[node name="NextButton" type="TextureButton" parent="HUD/EduCard" unique_id=302496046]
 layout_mode = 0
-offset_left = 326.6667
-offset_top = 1479.9999
-offset_right = 796.6667
-offset_bottom = 1569.9999
-text = "SELANJUTNYA"
+offset_left = 70.00003
+offset_top = 1513.3333
+offset_right = 1010.0
+offset_bottom = 1693.3333
+texture_normal = ExtResource("tex_continue")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="CameraFrame" parent="." unique_id=1922902824 instance=ExtResource("4_jw32o")]
 position = Vector2(199, 75)
