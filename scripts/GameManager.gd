@@ -10,6 +10,11 @@ extends Node
 @export var tex_heart_half: Texture2D
 @export var tex_heart_empty: Texture2D
 
+var bg_wave1 = preload("res://assets/background/background.png")
+var bg_wave2 = preload("res://assets/background/ladang.png")
+var bg_wave3 = preload("res://assets/background/kutub.png")
+var bg_wave4 = preload("res://assets/background/kerajaantua.png")
+
 var score: int = 0
 var current_health: int = 6 # 3 hearts * 2 halves
 var max_health: int = 6
@@ -21,6 +26,8 @@ var current_wave: int = 1
 var ducks_per_wave: int = 5
 var ducks_spawned: int = 0
 var ducks_resolved: int = 0 # Count of ducks captured + escaped
+var max_wave: int = 5
+var speed_multiplier: float = 1.0
 var last_snapshot: ImageTexture = null
 
 # Edu Data Dictionary
@@ -35,14 +42,27 @@ var species_data = {
 @onready var score_label: Label = $HUD/ScoreLabel
 @onready var hearts_container: HBoxContainer = $HUD/HeartsContainer
 @onready var hud: CanvasLayer = $HUD
+@onready var background_layer = $BackgroundLayer
+@onready var canvas_modulate = $CanvasModulate
+
+@onready var lightning_flash = $LightningFlash
+@onready var lightning_timer = $LightningTimer
+@onready var camera_frame = $CameraFrame
 
 func _ready():
 	screen_size = get_viewport().get_visible_rect().size
+
+	if has_node("/root/Global"):
+		var global = get_node("/root/Global")
+		max_wave = global.max_waves
+		speed_multiplier = global.difficulty_multiplier
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	start_wave(current_wave)
 	update_hud()
 	add_to_group("game_manager")
-	
+
+	if lightning_timer:
+		lightning_timer.timeout.connect(_on_lightning_strike)	
 	# Setup button effects
 	var game_over_panel = $HUD.get_node_or_null("GameOverPanel")
 	if game_over_panel:
@@ -55,8 +75,55 @@ func start_wave(wave: int):
 	ducks_resolved = 0
 	last_snapshot = null
 	
+	# Play the appropriate BGM for this wave (cap at wave_4 if there are more waves)
+	var track_name = "wave_" + str(min(wave, 4))
+	if has_node("/root/AudioManager"):
+		AudioManager.play_bgm(track_name)
+	
+	
+	# Environment Dynamics
+	var target_bg: Texture2D
+	var target_color: Color
+	
+
+	var mod_wave = (wave - 1) % 4 + 1
+	if mod_wave == 1:
+		target_bg = bg_wave1
+		target_color = Color(1.0, 1.0, 1.0)
+	elif mod_wave == 2:
+		target_bg = bg_wave2
+		target_color = Color(1.0, 0.85, 0.7)
+	elif mod_wave == 3:
+		target_bg = bg_wave3
+		target_color = Color(0.8, 0.85, 1.0)
+	else:
+		target_bg = bg_wave4
+		target_color = Color(0.4, 0.35, 0.5)
+
+		
+	if background_layer:
+		background_layer.texture = target_bg
+	
+	
+	# Trigger Flashlight and Lightning
+	if camera_frame and camera_frame.has_method("set_flashlight"):
+		if mod_wave == 4:
+			camera_frame.set_flashlight(true)
+		else:
+			camera_frame.set_flashlight(false)
+			
+	if wave >= 3:
+		if lightning_timer and lightning_timer.is_stopped():
+			lightning_timer.start(randf_range(3.0, 10.0))
+	else:
+		if lightning_timer:
+			lightning_timer.stop()
+	if canvas_modulate:
+		var tween = create_tween()
+		tween.tween_property(canvas_modulate, "color", target_color, 2.0)
+
 	# Increase difficulty
-	spawn_interval = max(0.5, 2.0 - (wave * 0.2))
+	spawn_interval = max(0.5, 2.0 - (wave * 0.2)) / speed_multiplier
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.start()
 	print("Starting Wave: ", wave)
@@ -74,6 +141,11 @@ func end_wave():
 	if is_game_over_state: return
 	
 	print("Wave ", current_wave, " complete!")
+	update_hud() # Force HUD update to show [V] checkmarks
+	
+	# Delay sebentar biar pemain bisa liat ceklisnya
+	await get_tree().create_timer(1.5).timeout
+	
 	var edu_card = $HUD.get_node_or_null("EduCard")
 	
 	if edu_card and species_data.has(current_wave):
@@ -84,6 +156,10 @@ func end_wave():
 		# Fallback if card isn't ready or we run out of data
 		await get_tree().create_timer(3.0).timeout
 		current_wave += 1
+
+	if current_wave > max_wave:
+		game_over(true)
+		return
 		start_wave(current_wave)
 
 func _on_spawn_timer_timeout():
@@ -164,6 +240,15 @@ func update_hud():
 	if wave_label:
 		wave_label.text = "WAVE: " + str(current_wave)
 		
+	var task_label = $HUD.get_node_or_null("TaskHolder/TaskLabel")
+	if task_label:
+		if current_health <= 0:
+			task_label.text = "[center][color=#b71c1c][X][/color] MISI GAGAL[/center]"
+		elif ducks_resolved >= ducks_per_wave:
+			task_label.text = "[center][color=#1b5e20][V][/color] TANGKAP " + str(ducks_per_wave) + " HEWAN!\n[color=#1b5e20][V][/color] HINDARI JEBAKAN![/center]"
+		else:
+			task_label.text = "[center][ ] TANGKAP " + str(ducks_per_wave) + " HEWAN!\n[ ] HINDARI JEBAKAN![/center]"
+		
 	if hearts_container:
 		# Update heart textures based on current health (Zelda style)
 		var hearts = hearts_container.get_children()
@@ -178,7 +263,7 @@ func update_hud():
 			else:
 				hearts[i].texture = tex_heart_empty
 
-func game_over():
+func game_over(is_win: bool = false):
 	if is_game_over_state: return
 	is_game_over_state = true
 	print("Game Over! Final Score: ", score)
@@ -190,6 +275,16 @@ func game_over():
 		if final_score_label:
 			final_score_label.text = "Final Score: " + str(score)
 		game_over_panel.show()
+
+		var game_over_label = game_over_panel.get_node_or_null("Label")
+		if game_over_label:
+			if is_win:
+				game_over_label.text = "YOU WIN!"
+				game_over_label.add_theme_color_override("font_color", Color(0.2, 0.8, 0.2))
+			else:
+				game_over_label.text = "GAME OVER"
+				game_over_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
+
 	else:
 		# Fallback if UI not created yet
 		await get_tree().create_timer(2.0).timeout
@@ -200,6 +295,11 @@ func restart_game():
 
 func return_to_menu():
 	get_tree().change_scene_to_file("res://Scenes/MainMenu.tscn")
+
+func _on_setting_button_pressed():
+	var settings = $HUD.get_node_or_null("SettingsPanel")
+	if settings:
+		settings.show()
 
 # --- FUNGSI EFEK TOMBOL OTOMATIS ---
 func _add_button_effects(btn: TextureButton):
@@ -235,3 +335,23 @@ func _add_button_effects(btn: TextureButton):
 		tween.tween_property(btn, "scale", Vector2(1.1, 1.1), 0.1) # Balik ke ukuran hover
 		tween.parallel().tween_property(btn, "modulate", Color(1.2, 1.2, 1.2), 0.1)
 	)
+
+
+func _on_lightning_strike():
+	if is_game_over_state or current_wave < 3: return
+	
+	if lightning_flash:
+		var tween = create_tween()
+		# Flash up
+		tween.tween_property(lightning_flash, "modulate:a", 0.8, 0.05)
+		# Fade out quickly
+		tween.tween_property(lightning_flash, "modulate:a", 0.0, 0.3)
+		
+		# Optional double flash
+		if randf() > 0.5:
+			tween.tween_property(lightning_flash, "modulate:a", 0.6, 0.05)
+			tween.tween_property(lightning_flash, "modulate:a", 0.0, 0.2)
+			
+	# Restart timer for next strike
+	if lightning_timer:
+		lightning_timer.start(randf_range(5.0, 15.0))

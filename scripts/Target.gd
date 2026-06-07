@@ -7,6 +7,9 @@ extends Area2D
 var direction: int = 1
 var is_captured: bool = false
 
+func set_speed_multiplier(mult: float):
+	base_speed *= mult
+
 func _ready():
 	# If spawned on right side, move left
 	if global_position.x > get_viewport_rect().size.x / 2:

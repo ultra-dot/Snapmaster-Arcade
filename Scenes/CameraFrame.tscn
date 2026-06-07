@@ -9,6 +9,19 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ge6jh"]
 size = Vector2(48, 35.5)
 
+
+[sub_resource type="Gradient" id="Gradient_light"]
+offsets = PackedFloat32Array(0, 0.7)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
+gradient = SubResource("Gradient_light")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.8)
+width = 512
+height = 512
+
 [node name="CameraFrame" type="Area2D" unique_id=1922902824]
 script = ExtResource("1_ge6jh")
 
@@ -28,3 +41,8 @@ fill_mode = 4
 texture_under = ExtResource("3_hul8v")
 texture_over = ExtResource("4_a81fx")
 texture_progress = ExtResource("5_hul8v")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 0.0
+blend_mode = 0
+texture = SubResource("GradientTexture2D_light")

@@ -1,12 +1,16 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3 uid="uid://bl3ltcrlqski2"]
 
-[ext_resource type="Script" path="res://scripts/MainMenu.gd" id="1_abc12"]
-[ext_resource type="Texture2D" path="res://assets/background/mainmenu.png" id="2_bg"]
-[ext_resource type="Texture2D" path="res://assets/buttons/startgame_button.png" id="3_start"]
-[ext_resource type="Texture2D" path="res://assets/buttons/quit_button.png" id="4_quit"]
-[ext_resource type="Texture2D" path="res://assets/buttons/logo.png" id="5_logo"]
+[ext_resource type="Texture2D" path="res://assets/buttons/home_button.png" id="tex_go_home"]
+[ext_resource type="Texture2D" path="res://assets/buttons/continue_button.png" id="tex_continue"]
+[ext_resource type="Script" uid="uid://b56swmh7fdxvj" path="res://scripts/MainMenu.gd" id="1_abc12"]
+[ext_resource type="Texture2D" uid="uid://c7es7ngrx48ax" path="res://assets/background/mainmenu.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://bx2li7353s0f5" path="res://assets/buttons/startgame_button.png" id="3_start"]
+[ext_resource type="Texture2D" uid="uid://bupww2k644rof" path="res://assets/buttons/quit_button.png" id="4_quit"]
+[ext_resource type="Texture2D" uid="uid://bdhl6ke8gm7j2" path="res://assets/buttons/logo.png" id="5_logo"]
+[ext_resource type="PackedScene" uid="uid://wry110205xkc" path="res://Scenes/SettingsPanel.tscn" id="scene_setting"]
+[ext_resource type="Texture2D" uid="uid://2m73ewsrxvli" path="res://assets/buttons/setting_button.png" id="tex_setting"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=479576264]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_abc12")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=483322678]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +30,7 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Logo" type="TextureRect" parent="."]
+[node name="Logo" type="TextureRect" parent="." unique_id=638154242]
 layout_mode = 0
 offset_left = 340.0
 offset_top = 50.0
@@ -36,27 +40,153 @@ texture = ExtResource("5_logo")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PlayButton" type="TextureButton" parent="."]
+[node name="PlayButton" type="TextureButton" parent="." unique_id=2117130674]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 379.0
+offset_right = 780.0
+offset_bottom = 459.0
+pivot_offset = Vector2(140, 40)
+texture_normal = ExtResource("3_start")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="QuitButton" type="TextureButton" parent="." unique_id=242380670]
+layout_mode = 0
+offset_left = 502.0
+offset_top = 548.0
+offset_right = 782.0
+offset_bottom = 628.0
+pivot_offset = Vector2(140, 40)
+texture_normal = ExtResource("4_quit")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="SettingButton" type="TextureButton" parent="." unique_id=422871274]
+layout_mode = 0
+offset_left = 501.0
+offset_top = 463.0
+offset_right = 781.0
+offset_bottom = 543.0
+pivot_offset = Vector2(140, 40)
+texture_normal = ExtResource("tex_setting")
+ignore_texture_size = true
+stretch_mode = 5
+
+
+[node name="DifficultyPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EasyButton" type="TextureButton" parent="DifficultyPanel"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 350.0
+offset_right = 780.0
+offset_bottom = 430.0
+pivot_offset = Vector2(140, 40)
+texture_normal = ExtResource("tex_continue")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="EasyLabel" type="Label" parent="DifficultyPanel/EasyButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "EASY (5 Wave)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MediumButton" type="TextureButton" parent="DifficultyPanel"]
 layout_mode = 0
 offset_left = 500.0
 offset_top = 450.0
 offset_right = 780.0
 offset_bottom = 530.0
 pivot_offset = Vector2(140, 40)
-texture_normal = ExtResource("3_start")
+texture_normal = ExtResource("tex_continue")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="QuitButton" type="TextureButton" parent="."]
+[node name="MediumLabel" type="Label" parent="DifficultyPanel/MediumButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "MEDIUM (10 Wave)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HardButton" type="TextureButton" parent="DifficultyPanel"]
 layout_mode = 0
 offset_left = 500.0
 offset_top = 550.0
 offset_right = 780.0
 offset_bottom = 630.0
 pivot_offset = Vector2(140, 40)
-texture_normal = ExtResource("4_quit")
+texture_normal = ExtResource("tex_continue")
 ignore_texture_size = true
 stretch_mode = 5
 
+[node name="HardLabel" type="Label" parent="DifficultyPanel/HardButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "HARD (15 Wave)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="TextureButton" parent="DifficultyPanel"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 650.0
+offset_right = 780.0
+offset_bottom = 730.0
+pivot_offset = Vector2(140, 40)
+texture_normal = ExtResource("tex_go_home")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BackLabel" type="Label" parent="DifficultyPanel/BackButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "KEMBALI"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsPanel" parent="." unique_id=39636606 instance=ExtResource("scene_setting")]
+visible = false
+
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="SettingButton" to="." method="_on_setting_button_pressed"]
+
+[connection signal="pressed" from="DifficultyPanel/EasyButton" to="." method="_on_easy_pressed"]
+[connection signal="pressed" from="DifficultyPanel/MediumButton" to="." method="_on_medium_pressed"]
+[connection signal="pressed" from="DifficultyPanel/HardButton" to="." method="_on_hard_pressed"]
+[connection signal="pressed" from="DifficultyPanel/BackButton" to="." method="_on_back_pressed"]

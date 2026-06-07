@@ -102,3 +102,14 @@ func take_snapshot(target: Area2D) -> ImageTexture:
 		var cropped_img = img.get_region(capture_rect)
 		return ImageTexture.create_from_image(cropped_img)
 	return null
+
+
+@onready var point_light = $PointLight2D
+
+func set_flashlight(active: bool):
+	if point_light:
+		var tween = create_tween()
+		if active:
+			tween.tween_property(point_light, "energy", 1.5, 1.0)
+		else:
+			tween.tween_property(point_light, "energy", 0.0, 1.0)

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://co60uupqxrl2f"
+path="res://.godot/imported/Wind Over The Trees.ogg-eebc526e25e2e85d5ace9af8f9adeefd.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Audio/ogg/Wind Over The Trees.ogg"
+dest_files=["res://.godot/imported/Wind Over The Trees.ogg-eebc526e25e2e85d5ace9af8f9adeefd.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

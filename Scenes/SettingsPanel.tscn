@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://wry110205xkc"]
+
+[ext_resource type="Script" uid="uid://dui0d8krd4nd6" path="res://scripts/SettingsPanel.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bxdcvfoca4mvi" path="res://assets/background/setting.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://cqcujwa8idjou" path="res://assets/buttons/home_button.png" id="3_close"]
+
+[node name="SettingsPanel" type="CanvasLayer" unique_id=798147437]
+layer = 10
+script = ExtResource("1_script")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=255494807]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Control" type="Control" parent="." unique_id=1689816115]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="Control" unique_id=1657783270]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -260.0
+offset_right = 320.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Control/Panel" unique_id=599641077]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 194.0
+offset_top = 143.0
+offset_right = -197.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.2, 0.1, 0.05, 1)
+theme_override_font_sizes/font_size = 30
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel" unique_id=316464841]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -30.0
+offset_right = 220.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 25
+
+[node name="LabelMaster" type="Label" parent="Control/Panel/VBoxContainer" unique_id=259975145]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.1, 0.05, 1)
+theme_override_font_sizes/font_size = 24
+text = "Master Volume"
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Control/Panel/VBoxContainer" unique_id=968795879]
+layout_mode = 2
+
+[node name="MasterSlider" type="HSlider" parent="Control/Panel/VBoxContainer/CenterContainer" unique_id=622984007]
+custom_minimum_size = Vector2(350, 40)
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="CloseButton" type="TextureButton" parent="Control/Panel" unique_id=66131345]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -140.0
+offset_right = 60.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("3_close")
+ignore_texture_size = true
+stretch_mode = 5
+
+[connection signal="value_changed" from="Control/Panel/VBoxContainer/CenterContainer/MasterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="pressed" from="Control/Panel/CloseButton" to="." method="_on_close_button_pressed"]
