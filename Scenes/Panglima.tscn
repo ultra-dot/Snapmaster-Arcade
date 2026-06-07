@@ -1,27 +1,30 @@
 [gd_scene format=3 uid="uid://8ls0uwtxmilm"]
 
-[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Target.gd" id="1_xu657"]
+[ext_resource type="Script" uid="uid://bxqjoxca5jog8" path="res://scripts/Target.gd" id="1_xu657"]
 [ext_resource type="Texture2D" uid="uid://baapooxy6mx7n" path="res://assets/characters/knight_spritesheet (1).png" id="2_xu657"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xu657"]
+atlas = ExtResource("2_xu657")
+region = Rect2(0, 80, 40, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_otsqr"]
 atlas = ExtResource("2_xu657")
-region = Rect2(0, 120, 40, 40)
+region = Rect2(40, 80, 40, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8jqyd"]
 atlas = ExtResource("2_xu657")
-region = Rect2(40, 120, 40, 40)
+region = Rect2(80, 80, 40, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cj6s8"]
 atlas = ExtResource("2_xu657")
-region = Rect2(80, 120, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bi7ph"]
-atlas = ExtResource("2_xu657")
-region = Rect2(120, 120, 40, 40)
+region = Rect2(120, 80, 40, 40)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_enhka"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xu657")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_otsqr")
 }, {
@@ -30,9 +33,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cj6s8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bi7ph")
 }],
 "loop": true,
 "name": &"default",
@@ -43,13 +43,19 @@ animations = [{
 radius = 8.0
 
 [node name="Panglima" type="Area2D" unique_id=637575940]
-scale = Vector2(3, 3)
+scale = Vector2(5.0, 5.0)
 script = ExtResource("1_xu657")
+allowed_bounces = 2
+is_zonk = false
+max_hp = 5
+point_value = 1000
+base_speed = 300.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
+position = Vector2(5.666667, -10.666667)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"
-frame_progress = 0.055257507
+frame_progress = 0.9490268
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
 shape = SubResource("CircleShape2D_rvkc3")

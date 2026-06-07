@@ -49,6 +49,17 @@ func _process(delta):
 							if snapshot:
 								gm.register_capture(snapshot)
 						print("Snap! Captured target.")
+					# Camera Flash Effect! (Hanya untuk jamur/healer)
+					if is_instance_valid(valid_duck) and valid_duck.get("is_healer"):
+						var flash = ColorRect.new()
+						# Flash hijau/putih untuk jamur
+						flash.color = Color(0.8, 1.0, 0.8, 1.0)
+						flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+						get_tree().root.add_child(flash)
+						var tween = create_tween()
+						tween.tween_property(flash, "color:a", 0.0, 0.3)
+						tween.tween_callback(flash.queue_free)
+
 					
 					# Munculin crosshair lagi
 					self.visible = true

@@ -1,35 +1,30 @@
 [gd_scene format=3 uid="uid://d2exidwo482gb"]
 
-[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Target.gd" id="1_cu855"]
+[ext_resource type="Script" uid="uid://bxqjoxca5jog8" path="res://scripts/Target.gd" id="1_cu855"]
 [ext_resource type="Texture2D" uid="uid://dqx8uj7j20de8" path="res://assets/characters/piggy_sheet (1).png" id="2_cu855"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ovxan"]
-atlas = ExtResource("2_cu855")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qumbm"]
-atlas = ExtResource("2_cu855")
-region = Rect2(128, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ucgru"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cu855"]
 atlas = ExtResource("2_cu855")
 region = Rect2(0, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_w835v"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovxan"]
 atlas = ExtResource("2_cu855")
 region = Rect2(32, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x3pw3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qumbm"]
 atlas = ExtResource("2_cu855")
 region = Rect2(64, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bd5wq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucgru"]
 atlas = ExtResource("2_cu855")
 region = Rect2(96, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_enhka"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cu855")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ovxan")
 }, {
@@ -38,15 +33,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ucgru")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w835v")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_x3pw3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bd5wq")
 }],
 "loop": true,
 "name": &"default",
@@ -59,12 +45,16 @@ radius = 8.0
 [node name="Pig" type="Area2D" unique_id=637575940]
 scale = Vector2(3, 3)
 script = ExtResource("1_cu855")
+is_zonk = false
+base_speed = 150.0
+point_value = 150
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
+position = Vector2(-0.99999994, -6.3333335)
 scale = Vector2(0.8229167, 0.84374994)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"
-frame_progress = 0.4795164
+frame_progress = 0.68225694
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
 shape = SubResource("CircleShape2D_rvkc3")

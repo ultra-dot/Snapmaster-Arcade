@@ -45,6 +45,8 @@ radius = 8.0
 [node name="Skeleton" type="Area2D" unique_id=637575940]
 scale = Vector2(3, 3)
 script = ExtResource("1_abfcy")
+is_zonk = true
+base_speed = 300.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
 scale = Vector2(0.8194445, 0.75)

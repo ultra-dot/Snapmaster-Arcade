@@ -32,6 +32,8 @@ radius = 8.0
 scale = Vector2(3, 3)
 script = ExtResource("1_p4yo7")
 is_zonk = true
+movement_type = 1
+is_zonk = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
 sprite_frames = SubResource("SpriteFrames_enhka")

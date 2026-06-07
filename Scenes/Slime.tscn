@@ -45,6 +45,10 @@ radius = 8.0
 [node name="Slime" type="Area2D" unique_id=637575940]
 scale = Vector2(3, 3)
 script = ExtResource("1_p1xxi")
+is_zonk = true
+movement_type = 2
+bounce_strength = -500.0
+base_speed = 150.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
 scale = Vector2(1.298611, 1.298611)

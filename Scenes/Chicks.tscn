@@ -59,6 +59,9 @@ radius = 8.0
 [node name="Chicks" type="Area2D" unique_id=637575940]
 scale = Vector2(3, 3)
 script = ExtResource("1_377m3")
+is_zonk = false
+base_speed = 400.0
+point_value = 300
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
 scale = Vector2(0.6666667, 0.6666666)

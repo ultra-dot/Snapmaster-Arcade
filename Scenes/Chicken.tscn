@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dumy8bul03coe"]
 
-[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Target.gd" id="1_14vs4"]
+[ext_resource type="Script" uid="uid://bxqjoxca5jog8" path="res://scripts/Target.gd" id="1_14vs4"]
 [ext_resource type="Texture2D" uid="uid://rdyuofoci1lj" path="res://assets/characters/cute chicken run.png" id="2_14vs4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_osyue"]
@@ -28,15 +28,18 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_rvkc3"]
 radius = 8.0
 
-[node name="Chicken_run" type="Area2D" unique_id=637575940]
+[node name="Chicken" type="Area2D" unique_id=637575940]
 scale = Vector2(3, 3)
 script = ExtResource("1_14vs4")
+is_zonk = false
+base_speed = 350.0
+point_value = 200
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
 scale = Vector2(0.66319454, 0.6701389)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"
-frame_progress = 0.31957036
+frame_progress = 0.39751965
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
 shape = SubResource("CircleShape2D_rvkc3")

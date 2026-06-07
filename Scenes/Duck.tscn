@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ctimvawit4yj3"]
 
-[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Target.gd" id="1_rvkc3"]
+[ext_resource type="Script" uid="uid://bxqjoxca5jog8" path="res://scripts/Target.gd" id="1_rvkc3"]
 [ext_resource type="Texture2D" uid="uid://8i3qjvgmsqb2" path="res://assets/characters/ducky-walk.png" id="2_5ep3k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kobk1"]
@@ -47,9 +47,11 @@ scale = Vector2(3, 3)
 script = ExtResource("1_rvkc3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
+position = Vector2(-0.666667, -9.666667)
+scale = Vector2(0.6944445, 0.6944445)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"
-frame_progress = 0.44236758
+frame_progress = 0.65880406
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
 shape = SubResource("CircleShape2D_rvkc3")

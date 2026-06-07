@@ -16,8 +16,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-AudioManager="*res://scripts/AudioManager.gd"
 InputManager="*res://scripts/InputManager.gd"
+AudioManager="*res://scripts/AudioManager.gd"
 Global="*res://scripts/Global.gd"
 
 [display]
@@ -25,6 +25,10 @@ Global="*res://scripts/Global.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+
+[gui]
+
+theme/custom="res://main_theme.tres"
 
 [input]
 
@@ -42,7 +46,3 @@ click={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
-
-[gui]
-
-theme/custom="res://main_theme.tres"

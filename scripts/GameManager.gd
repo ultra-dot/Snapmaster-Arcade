@@ -10,12 +10,35 @@ extends Node
 @export var tex_heart_half: Texture2D
 @export var tex_heart_empty: Texture2D
 
+
+
+var duck_preload = preload("res://Scenes/Duck.tscn")
+var chicken_preload = preload("res://Scenes/Chicken.tscn")
+var chicks_preload = preload("res://Scenes/Chicks.tscn")
+var pig_preload = preload("res://Scenes/Pig.tscn")
+var penguin_preload = preload("res://Scenes/Penguin.tscn")
+var bear_preload = preload("res://Scenes/Bear.tscn")
+var polarbear_preload = preload("res://Scenes/PolarBear.tscn")
+var panglima_preload = preload("res://Scenes/Panglima.tscn")
+var mushroom_preload = preload("res://Scenes/Mushroom.tscn")
+
+var frog_preload = preload("res://Scenes/Frog.tscn")
+var kitty_preload = preload("res://Scenes/Kitty.tscn")
+var bat_preload = preload("res://Scenes/Bat.tscn")
+var slime_preload = preload("res://Scenes/Slime.tscn")
+var skeleton_preload = preload("res://Scenes/Skeleton.tscn")
 var bg_wave1 = preload("res://assets/background/background.png")
 var bg_wave2 = preload("res://assets/background/ladang.png")
 var bg_wave3 = preload("res://assets/background/kutub.png")
 var bg_wave4 = preload("res://assets/background/kerajaantua.png")
 
+var tex_win_logo = preload("res://assets/ui/GreatWork_logo.png")
+var tex_gameover_logo = preload("res://assets/buttons/game over_logo.png")
+
+var shake_intensity: float = 0.0
 var score: int = 0
+var combo_count: int = 0
+var combo_multiplier: float = 1.0
 var current_health: int = 6 # 3 hearts * 2 halves
 var max_health: int = 6
 var screen_size: Vector2
@@ -118,6 +141,21 @@ func start_wave(wave: int):
 	else:
 		if lightning_timer:
 			lightning_timer.stop()
+	
+
+	# Update Enemy Types Based on Wave
+	if mod_wave == 1:
+		target_scenes = [duck_preload]
+		zonk_scenes = [frog_preload]
+	elif mod_wave == 2:
+		target_scenes = [duck_preload, chicken_preload, chicks_preload, pig_preload]
+		zonk_scenes = [frog_preload, kitty_preload]
+	elif mod_wave == 3:
+		target_scenes = [penguin_preload, polarbear_preload]
+		zonk_scenes = [slime_preload, bat_preload]
+	else:
+		target_scenes = [panglima_preload, bear_preload]
+		zonk_scenes = [bat_preload, skeleton_preload]
 	if canvas_modulate:
 		var tween = create_tween()
 		tween.tween_property(canvas_modulate, "color", target_color, 2.0)
@@ -174,9 +212,14 @@ func _on_spawn_timer_timeout():
 func spawn_entity():
 	var scene_to_spawn = duck_scene
 	var is_spawning_zonk = false
+	var is_spawning_healer = false
 	
+	# 5% chance to spawn a Mushroom (Healer)
+	if randf() < 0.05:
+		scene_to_spawn = mushroom_preload
+		is_spawning_healer = true
 	# 20% chance to spawn a Zonk if zonk_scenes are provided
-	if zonk_scenes.size() > 0 and randf() < 0.2:
+	elif zonk_scenes.size() > 0 and randf() < 0.2:
 		scene_to_spawn = zonk_scenes[randi() % zonk_scenes.size()]
 		is_spawning_zonk = true
 	elif target_scenes.size() > 0:
@@ -187,7 +230,7 @@ func spawn_entity():
 	var entity = scene_to_spawn.instantiate()
 	
 	# Randomize Size (Tiny, Normal, Giant) for Normal Targets
-	if not is_spawning_zonk:
+	if not is_spawning_zonk and not is_spawning_healer:
 		var scale_chance = randf()
 		if scale_chance < 0.15:
 			# Giant (Slow, Low points)
@@ -196,7 +239,7 @@ func spawn_entity():
 			entity.point_value = 50
 		elif scale_chance < 0.30:
 			# Tiny (Fast, High points)
-			entity.scale *= 0.5
+			entity.scale *= 0.75
 			entity.base_speed *= 1.5
 			entity.point_value = 300
 	
@@ -223,14 +266,39 @@ func spawn_entity():
 		add_child(entity)
 
 func add_score(amount: int):
-	score += amount
+	combo_count += 1
+	combo_multiplier = 1.0 + (combo_count * 0.2)
+	var final_amount = int(amount * combo_multiplier)
+	score += final_amount
 	update_hud()
+	show_combo_popup()
 
 func lose_life():
-	current_health -= 1
+	combo_count = 0
+	combo_multiplier = 1.0
+	apply_shake(1.0)
 	update_hud()
+	current_health -= 1
 	if current_health <= 0:
-		game_over()
+		game_over(false)
+
+func add_life():
+	if current_health < max_health:
+		current_health = min(current_health + 2, max_health)
+		update_hud()
+		# Tampilkan popup "+1 NYAWA"
+		var popup = Label.new()
+		popup.text = "+1 NYAWA!"
+		popup.add_theme_font_size_override("font_size", 30)
+		popup.add_theme_color_override("font_color", Color(0.2, 1.0, 0.2))
+		popup.add_theme_color_override("font_outline_color", Color(0, 0, 0))
+		popup.add_theme_constant_override("outline_size", 8)
+		popup.position = Vector2(screen_size.x / 2 - 80, screen_size.y / 2)
+		$HUD.add_child(popup)
+		var tween = create_tween()
+		tween.tween_property(popup, "position:y", popup.position.y - 100, 1.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tween.parallel().tween_property(popup, "modulate:a", 0.0, 1.0)
+		tween.tween_callback(popup.queue_free)
 
 func update_hud():
 	if score_label:
@@ -239,6 +307,12 @@ func update_hud():
 	var wave_label = $HUD.get_node_or_null("WaveLabel")
 	if wave_label:
 		wave_label.text = "WAVE: " + str(current_wave)
+		
+	var combo_label = $HUD.get_node_or_null("ComboLabel")
+	if combo_label:
+		combo_label.text = "COMBO: " + str(combo_count)
+		if combo_count > 1:
+			combo_label.text += " (x" + str(snapped(combo_multiplier, 0.1)) + ")"
 		
 	var task_label = $HUD.get_node_or_null("TaskHolder/TaskLabel")
 	if task_label:
@@ -268,6 +342,9 @@ func game_over(is_win: bool = false):
 	is_game_over_state = true
 	print("Game Over! Final Score: ", score)
 	spawn_timer.stop()
+
+	if has_node("/root/AudioManager"):
+		AudioManager.active_player.stop()
 	
 	var game_over_panel = $HUD.get_node_or_null("GameOverPanel")
 	if game_over_panel:
@@ -275,6 +352,20 @@ func game_over(is_win: bool = false):
 		if final_score_label:
 			final_score_label.text = "Final Score: " + str(score)
 		game_over_panel.show()
+
+		var game_over_image = game_over_panel.get_node_or_null("GameOverImage")
+		if game_over_image:
+			if is_win:
+				game_over_image.texture = tex_win_logo
+				if has_node("/root/AudioManager"):
+					if score >= 5000:
+						AudioManager.play_sfx("sfx_victory2")
+					else:
+						AudioManager.play_sfx("sfx_victory1")
+			else:
+				if has_node("/root/AudioManager"):
+					AudioManager.play_sfx("sfx_gameover")
+				game_over_image.texture = tex_gameover_logo
 
 		var game_over_label = game_over_panel.get_node_or_null("Label")
 		if game_over_label:
@@ -355,3 +446,44 @@ func _on_lightning_strike():
 	# Restart timer for next strike
 	if lightning_timer:
 		lightning_timer.start(randf_range(5.0, 15.0))
+
+func show_combo_popup():
+	if combo_count < 2: return
+	
+	var popup = Label.new()
+	popup.text = "COMBO x" + str(combo_count) + "!"
+	popup.add_theme_font_size_override("font_size", 40 + (combo_count * 5))
+	popup.add_theme_color_override("font_color", Color(1.0, 0.8, 0.0))
+	popup.add_theme_color_override("font_outline_color", Color(0, 0, 0))
+	popup.add_theme_constant_override("outline_size", 8)
+	
+	# Position roughly center top
+	popup.position = Vector2(screen_size.x / 2 - 100, screen_size.y / 2 - 200)
+	$HUD.add_child(popup)
+	
+	var tween = create_tween()
+	tween.tween_property(popup, "position:y", popup.position.y - 100, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(popup, "modulate:a", 0.0, 0.5).set_delay(0.5)
+	tween.tween_callback(popup.queue_free)
+
+func _process(delta):
+	if shake_intensity > 0:
+		shake_intensity = move_toward(shake_intensity, 0.0, delta * 3.0)
+		var cam = get_node_or_null("Camera2D")
+		if cam:
+			cam.offset = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake_intensity * 40.0
+	else:
+		var cam = get_node_or_null("Camera2D")
+		if cam: cam.offset = Vector2.ZERO
+
+	# Handle mouse visibility dynamically
+	var hud = get_node_or_null("HUD")
+	var is_ui_active = is_game_over_state or (hud and hud.get_node_or_null("SettingsPanel") and hud.get_node("SettingsPanel").visible) or (hud and hud.get_node_or_null("EduCard") and hud.get_node("EduCard").visible)
+	
+	if is_ui_active:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+func apply_shake(intensity: float = 1.0):
+	shake_intensity = max(shake_intensity, intensity)

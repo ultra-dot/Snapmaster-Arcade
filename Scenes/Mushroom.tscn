@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://x1nq2trmkl2h"]
 
-[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Target.gd" id="1_i6ixy"]
+[ext_resource type="Script" uid="uid://bxqjoxca5jog8" path="res://scripts/Target.gd" id="1_i6ixy"]
 [ext_resource type="Texture2D" uid="uid://bm35r0faiu3ld" path="res://assets/characters/Cute Shroom 4.png" id="2_i6ixy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yy5cp"]
@@ -45,12 +45,16 @@ radius = 8.0
 [node name="Mushroom" type="Area2D" unique_id=637575940]
 scale = Vector2(3, 3)
 script = ExtResource("1_i6ixy")
+is_healer = true
+movement_type = 2
+point_value = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
+position = Vector2(0, -7.333333)
 scale = Vector2(0.90625, 0.9270834)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"
-frame_progress = 0.060709205
+frame_progress = 0.46836945
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034407825]
 shape = SubResource("CircleShape2D_rvkc3")

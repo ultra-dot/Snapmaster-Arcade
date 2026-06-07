@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ba2x4n1ybp5xk"
-path="res://.godot/imported/MainMenu.png-90f1cb20c1f814bcdf3393a2c572de4c.ctex"
+uid="uid://cw5uol2fqe7pu"
+path="res://.godot/imported/GreatWork_logo.png-175d666eedaa892577914a13de7e4eb4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/background/MainMenu.png"
-dest_files=["res://.godot/imported/MainMenu.png-90f1cb20c1f814bcdf3393a2c572de4c.ctex"]
+source_file="res://assets/ui/GreatWork_logo.png"
+dest_files=["res://.godot/imported/GreatWork_logo.png-175d666eedaa892577914a13de7e4eb4.ctex"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bpkvnnr6fc4d8"]
 
-[ext_resource type="Script" uid="uid://bavuxbyhpdwnk" path="res://scripts/Target.gd" id="1_u71oa"]
+[ext_resource type="Script" uid="uid://bxqjoxca5jog8" path="res://scripts/Target.gd" id="1_u71oa"]
 [ext_resource type="Texture2D" uid="uid://2h2vnpvmnfwf" path="res://assets/characters/little-bear-walk.png" id="2_u71oa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0kig5"]
@@ -43,10 +43,15 @@ animations = [{
 radius = 8.0
 
 [node name="Bear" type="Area2D" unique_id=637575940]
-scale = Vector2(3, 3)
+scale = Vector2(4.0, 4.0)
 script = ExtResource("1_u71oa")
+allowed_bounces = 1
+is_zonk = false
+max_hp = 3
+point_value = 500
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337613725]
+position = Vector2(-0.99999994, -5.3333335)
 scale = Vector2(0.8229167, 0.84374994)
 sprite_frames = SubResource("SpriteFrames_enhka")
 autoplay = "default"

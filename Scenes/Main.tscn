@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dc882vaaqnwo5" path="res://Scenes/Frog.tscn" id="3_erwvk"]
 [ext_resource type="Texture2D" uid="uid://dfp7iern2q72n" path="res://assets/ui/HeartsFrame1.png" id="3_jw32o"]
 [ext_resource type="Texture2D" uid="uid://spab0tbhbikw" path="res://assets/background/background.png" id="3_v1gob"]
-[ext_resource type="PackedScene" uid="uid://dumy8bul03coe" path="res://Scenes/Chicken_run.tscn" id="4_2w5on"]
+[ext_resource type="PackedScene" uid="uid://dumy8bul03coe" path="res://Scenes/Chicken.tscn" id="4_2w5on"]
 [ext_resource type="Texture2D" uid="uid://bp3ou4wxq2ylh" path="res://assets/ui/HeartsFrame2.png" id="4_50glp"]
 [ext_resource type="PackedScene" uid="uid://de8ri08cgpinl" path="res://Scenes/CameraFrame.tscn" id="4_jw32o"]
 [ext_resource type="PackedScene" uid="uid://c2fugx6xx32g4" path="res://Scenes/Bat.tscn" id="5_346fj"]
@@ -20,6 +20,11 @@
 [ext_resource type="Texture2D" uid="uid://2m73ewsrxvli" path="res://assets/buttons/setting_button.png" id="tex_go_setting"]
 [ext_resource type="Texture2D" uid="uid://bwcu8o64gbyy0" path="res://assets/ui/paper.png" id="tex_paper"]
 
+[ext_resource type="Shader" uid="uid://cax2e2e2e2e2e" path="res://scripts/scroll_shader.gdshader" id="shader_scroll"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_scroll"]
+shader = ExtResource("shader_scroll")
+shader_parameter/scroll_speed = 0.05
+
 [node name="Main" type="Node2D" unique_id=122853964]
 script = ExtResource("1_rgh2o")
 duck_scene = ExtResource("2_pbw6q")
@@ -29,15 +34,16 @@ tex_heart_full = ExtResource("3_jw32o")
 tex_heart_half = ExtResource("4_50glp")
 tex_heart_empty = ExtResource("5_vy5pj")
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=999999999]
+position = Vector2(640, 360)
+
 [node name="BackgroundLayer" type="Sprite2D" parent="." unique_id=1657552905]
 position = Vector2(640, 360)
 texture = ExtResource("3_v1gob")
 
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1643935447]
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(1, 1, 1, 1)
-
-[node name="LightningFlash" type="ColorRect" parent="."]
+[node name="LightningFlash" type="ColorRect" parent="." unique_id=23172616]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,9 +53,8 @@ offset_bottom = 720.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(1, 1, 1, 1)
 
-[node name="LightningTimer" type="Timer" parent="."]
+[node name="LightningTimer" type="Timer" parent="." unique_id=1147217120]
 one_shot = true
 
 [node name="DuckSpawner" type="Node2D" parent="." unique_id=574839863]
@@ -66,6 +71,19 @@ offset_right = 123.0
 offset_bottom = 50.0
 scale = Vector2(2, 2)
 text = "Score Label"
+
+[node name="ComboLabel" type="Label" parent="HUD" unique_id=999999998]
+offset_left = 33.0
+offset_top = 105.0
+offset_right = 150.0
+offset_bottom = 128.0
+scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "COMBO: 0"
+vertical_alignment = 1
 
 [node name="WaveLabel" type="Label" parent="HUD" unique_id=475809817]
 offset_left = 33.0
