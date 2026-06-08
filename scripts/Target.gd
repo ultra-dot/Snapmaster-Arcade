@@ -103,7 +103,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 			
 		var gm = get_tree().get_first_node_in_group("game_manager")
 		if gm:
-			if not is_zonk:
+			var is_bonus = gm.get("is_bonus_wave")
+			if not is_zonk and not is_bonus:
 				gm.lose_life()
 			gm.duck_resolved()
 		queue_free()

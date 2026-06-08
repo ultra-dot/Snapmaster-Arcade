@@ -47,7 +47,7 @@ func _process(delta):
 						valid_duck.capture()
 						if gm:
 							if snapshot:
-								gm.register_capture(snapshot)
+								gm.register_capture(snapshot, valid_duck)
 						print("Snap! Captured target.")
 					# Camera Flash Effect! (Hanya untuk jamur/healer)
 					if is_instance_valid(valid_duck) and valid_duck.get("is_healer"):

@@ -3,7 +3,7 @@ extends TextureRect
 @onready var photo_rect: TextureRect = $PhotoRect
 @onready var name_label: Label = $NameLabel
 @onready var latin_label: Label = $LatinLabel
-@onready var desc_label: RichTextLabel = $DescLabel
+@onready var desc_label: Label = $DescLabel
 @onready var next_button: TextureButton = $NextButton
 
 func _ready():
@@ -50,6 +50,5 @@ func show_card(data: Dictionary, snapshot: ImageTexture):
 func _on_next_button_pressed():
 	hide()
 	var gm = get_tree().get_first_node_in_group("game_manager")
-	if gm:
-		gm.current_wave += 1
-		gm.start_wave(gm.current_wave)
+	if gm and gm.has_method("advance_wave"):
+		gm.advance_wave()

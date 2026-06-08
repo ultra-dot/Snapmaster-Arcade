@@ -43,6 +43,7 @@ var current_health: int = 6 # 3 hearts * 2 halves
 var max_health: int = 6
 var screen_size: Vector2
 var is_game_over_state: bool = false
+var is_bonus_wave: bool = false
 
 # Wave System
 var current_wave: int = 1
@@ -52,13 +53,28 @@ var ducks_resolved: int = 0 # Count of ducks captured + escaped
 var max_wave: int = 5
 var speed_multiplier: float = 1.0
 var last_snapshot: ImageTexture = null
+var shown_edu_cards: Array = []
+var captured_species_this_wave: Array = []
+var captured_snapshots_this_wave: Dictionary = {}
+var current_zonk_name: String = ""
+var zonk_hit_this_wave: bool = false
 
 # Edu Data Dictionary
 var species_data = {
-	1: {"name": "Bebek Mallard", "latin": "Anas platyrhynchos", "desc": "Bebek liar yang paling umum dijumpai. Sangat mudah beradaptasi."},
-	2: {"name": "Bebek Kayu", "latin": "Aix sponsa", "desc": "Bebek berbulu sangat indah yang suka bertengger di pepohonan."},
-	3: {"name": "Katak Hijau", "latin": "Lithobates clamitans", "desc": "Bisa diam berjam-jam, tapi lompatannya sangat cepat!"},
-	4: {"name": "Bebek Misterius", "latin": "Anatidae ignotus", "desc": "Sangat cepat dan langka. Jangan sampai lepas!"}
+	"Duck": {"name": "Bebek Mallard", "latin": "Anas platyrhynchos", "desc": "Unggas air yang lincah dan berenang sangat cepat. Jangan biarkan dia kabur!"},
+	"Chicken": {"name": "Ayam Ternak", "latin": "Gallus gallus domesticus", "desc": "Sangat panik jika didekati! Biasanya lari bergerombol bersama anak-anaknya."},
+	"Chicks": {"name": "Anak Ayam", "latin": "Gallus gallus domesticus", "desc": "Masih kecil tapi sangat gesit! Selalu mengikuti induknya."},
+	"Penguin": {"name": "Pinguin Kutub", "latin": "Aptenodytes forsteri", "desc": "Burung lucu yang beradaptasi di cuaca es ekstrem. Meluncur super cepat di atas salju."},
+	"Bear": {"name": "Beruang Cokelat", "latin": "Ursus arctos", "desc": "Hewan masif yang sangat kuat! Butuh timing kamera yang pas untuk menangkap momennya."},
+	"Panglima": {"name": "Panglima Orc", "latin": "Orcus bellator", "desc": "Raja dari segala hutan! Makhluk mitologi super langka yang memiliki kecepatan luar biasa."},
+	"Frog": {"name": "Katak Hijau", "latin": "Lithobates clamitans", "desc": "Hewan yang sering merusak fokus lensa. Lebih baik dihindari!"},
+	"Pig": {"name": "Babi Hutan", "latin": "Sus scrofa", "desc": "Hewan liar yang suka berkeliaran di semak-semak."},
+	"PolarBear": {"name": "Beruang Kutub", "latin": "Ursus maritimus", "desc": "Predator puncak di wilayah salju."},
+	"Kitty": {"name": "Kucing Liar", "latin": "Felis catus", "desc": "Kucing yang suka bermain di area peternakan. Lucu tapi bukan targetmu."},
+	"Mushroom": {"name": "Jamur Ajaib", "latin": "Amanita muscaria", "desc": "Memotret jamur ini bisa menyembuhkan satu poin nyawa yang hilang!"},
+	"Slime": {"name": "Slime Beku", "latin": "Gelatinum cryo", "desc": "Lendir dingin yang bisa membekukan kamera!"},
+	"Skeleton": {"name": "Tengkorak Hidup", "latin": "Homo mortuus", "desc": "Makhluk astral yang sangat mengganggu."},
+	"Bat": {"name": "Kelelawar Gua", "latin": "Chiroptera", "desc": "Penerbang malam yang sangat gesit."}
 }
 
 @onready var spawn_timer: Timer = $SpawnTimer
@@ -96,6 +112,8 @@ func _ready():
 func start_wave(wave: int):
 	ducks_spawned = 0
 	ducks_resolved = 0
+	captured_snapshots_this_wave.clear()
+	zonk_hit_this_wave = false
 	last_snapshot = null
 	
 	# Play the appropriate BGM for this wave (cap at wave_4 if there are more waves)
@@ -109,7 +127,10 @@ func start_wave(wave: int):
 	var target_color: Color
 	
 
-	var mod_wave = (wave - 1) % 4 + 1
+	var is_final_wave = (wave == max_wave)
+	var mod_wave = (wave - 1) % 3 + 1
+	if is_final_wave:
+		mod_wave = 4
 	if mod_wave == 1:
 		target_bg = bg_wave1
 		target_color = Color(1.0, 1.0, 1.0)
@@ -144,6 +165,61 @@ func start_wave(wave: int):
 	
 
 	# Update Enemy Types Based on Wave
+	if is_bonus_wave:
+		ducks_per_wave = 15
+		target_scenes = [duck_preload, chicken_preload, mushroom_preload, panglima_preload]
+		zonk_scenes = []
+		current_zonk_name = "TIDAK ADA"
+		
+		# Random background and frenzy effect (brighter, less yellow)
+		var backgrounds = [bg_wave1, bg_wave2, bg_wave3]
+		background_layer.texture = backgrounds[randi() % backgrounds.size()]
+		canvas_modulate.color = Color(1.0, 1.0, 1.0) # Reset tint
+		
+		# Create a Shader-based Disco Blob Overlay
+		var frenzy_glow = ColorRect.new()
+		frenzy_glow.set_anchors_preset(Control.PRESET_FULL_RECT)
+		frenzy_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		
+		var shader = Shader.new()
+		shader.code = """
+		shader_type canvas_item;
+		render_mode blend_add;
+
+		void fragment() {
+			vec2 uv = UV;
+			
+			// Moving disco blobs
+			float blob1 = sin(uv.x * 4.0 + TIME * 1.5) * cos(uv.y * 3.0 + TIME * 1.2);
+			float blob2 = sin(uv.x * 5.0 - TIME * 1.3) * cos(uv.y * 4.0 - TIME * 1.6);
+			float blob3 = sin(uv.x * 3.0 + TIME * 1.8) * cos(uv.y * 5.0 - TIME * 1.4);
+			
+			vec3 col = vec3(0.0);
+			col += vec3(1.0, 0.1, 0.6) * smoothstep(0.1, 0.9, blob1); // Neon Pink
+			col += vec3(0.1, 0.8, 1.0) * smoothstep(0.1, 0.9, blob2); // Neon Cyan
+			col += vec3(0.8, 1.0, 0.1) * smoothstep(0.1, 0.9, blob3); // Neon Yellow
+			
+			COLOR = vec4(col, 0.4); // Additive intensity
+		}
+		"""
+		
+		var mat = ShaderMaterial.new()
+		mat.shader = shader
+		frenzy_glow.material = mat
+		$HUD.add_child(frenzy_glow)
+		
+		if camera_frame and camera_frame.has_method("set_flashlight"):
+			camera_frame.set_flashlight(false)
+		if lightning_timer:
+			lightning_timer.stop()
+		
+		spawn_interval = 0.5 / speed_multiplier
+		spawn_timer.wait_time = spawn_interval
+		spawn_timer.start()
+		print("Starting BONUS WAVE!")
+		update_hud()
+		return
+
 	if mod_wave == 1:
 		target_scenes = [duck_preload]
 		zonk_scenes = [frog_preload]
@@ -156,6 +232,18 @@ func start_wave(wave: int):
 	else:
 		target_scenes = [panglima_preload, bear_preload]
 		zonk_scenes = [bat_preload, skeleton_preload]
+
+	if zonk_scenes.size() > 0:
+		var random_zonk = zonk_scenes[randi() % zonk_scenes.size()]
+		var zonk_species = random_zonk.resource_path.get_file().get_basename()
+		if zonk_species in species_data:
+			current_zonk_name = species_data[zonk_species]["name"].to_upper()
+		else:
+			current_zonk_name = zonk_species.to_upper()
+		zonk_scenes = [random_zonk] # ONLY spawn this zonk so warning makes sense!
+	else:
+		current_zonk_name = "JEBAKAN"
+		
 	if canvas_modulate:
 		var tween = create_tween()
 		tween.tween_property(canvas_modulate, "color", target_color, 2.0)
@@ -167,11 +255,28 @@ func start_wave(wave: int):
 	print("Starting Wave: ", wave)
 	update_hud()
 
-func register_capture(snapshot: ImageTexture):
+func register_capture(snapshot: ImageTexture, target_node: Node2D = null):
 	last_snapshot = snapshot
+	if target_node:
+		var species = target_node.name.rstrip("0123456789")
+		if species not in captured_species_this_wave:
+			captured_species_this_wave.append(species)
+			print("Registered species: ", species)
+
+
+func advance_wave():
+	if current_wave == max_wave and not is_bonus_wave:
+		is_bonus_wave = true
+		start_wave(current_wave)
+	elif is_bonus_wave:
+		game_over(true)
+	else:
+		current_wave += 1
+		start_wave(current_wave)
 
 func duck_resolved():
 	ducks_resolved += 1
+	update_hud()
 	if ducks_resolved >= ducks_per_wave:
 		end_wave()
 
@@ -185,20 +290,28 @@ func end_wave():
 	await get_tree().create_timer(1.5).timeout
 	
 	var edu_card = $HUD.get_node_or_null("EduCard")
+	var species_to_show = ""
 	
-	if edu_card and species_data.has(current_wave):
-		# Show the educational card and pause the wave progression
-		# The EduCard's "Next" button will start the next wave
-		edu_card.show_card(species_data[current_wave], last_snapshot)
+	if edu_card:
+		for species in captured_species_this_wave:
+			if species in species_data and species not in shown_edu_cards:
+				species_to_show = species
+				break
+				
+	captured_species_this_wave.clear()
+				
+	if species_to_show != "":
+		shown_edu_cards.append(species_to_show)
+		edu_card.show_card(species_data[species_to_show], last_snapshot)
 	else:
-		# Fallback if card isn't ready or we run out of data
-		await get_tree().create_timer(3.0).timeout
+		# Fallback if card isn't ready or we run out of data or no new species
+		await get_tree().create_timer(1.5).timeout
 		current_wave += 1
 
-	if current_wave > max_wave:
-		game_over(true)
-		return
-		start_wave(current_wave)
+		if current_wave > max_wave:
+			game_over(true)
+		else:
+			start_wave(current_wave)
 
 func _on_spawn_timer_timeout():
 	if ducks_spawned < ducks_per_wave:
@@ -274,6 +387,7 @@ func add_score(amount: int):
 	show_combo_popup()
 
 func lose_life():
+	zonk_hit_this_wave = true
 	combo_count = 0
 	combo_multiplier = 1.0
 	apply_shake(1.0)
@@ -306,7 +420,7 @@ func update_hud():
 		
 	var wave_label = $HUD.get_node_or_null("WaveLabel")
 	if wave_label:
-		wave_label.text = "WAVE: " + str(current_wave)
+		wave_label.text = "BONUS WAVE" if is_bonus_wave else "WAVE: " + str(current_wave)
 		
 	var combo_label = $HUD.get_node_or_null("ComboLabel")
 	if combo_label:
@@ -314,16 +428,33 @@ func update_hud():
 		if combo_count > 1:
 			combo_label.text += " (x" + str(snapped(combo_multiplier, 0.1)) + ")"
 		
+	var task_holder = $HUD.get_node_or_null("TaskHolder")
+	var task_shadow = $HUD.get_node_or_null("TaskHolderShadow")
+	if task_holder:
+		if is_bonus_wave:
+			task_holder.hide()
+			if task_shadow: task_shadow.hide()
+		else:
+			task_holder.show()
+			if task_shadow: task_shadow.show()
+
 	var task_label = $HUD.get_node_or_null("TaskHolder/TaskLabel")
 	if task_label:
 		if current_health <= 0:
 			task_label.text = "[center][color=#b71c1c][X][/color] MISI GAGAL[/center]"
 		elif ducks_resolved >= ducks_per_wave:
-			task_label.text = "[center][color=#1b5e20][V][/color] TANGKAP " + str(ducks_per_wave) + " HEWAN!\n[color=#1b5e20][V][/color] HINDARI JEBAKAN![/center]"
+			var zonk_box = "[color=#b71c1c][X][/color]" if zonk_hit_this_wave else "[color=#1b5e20][V][/color]"
+			task_label.text = "[center][color=#1b5e20][V][/color] SEMUA TARGET TUNTAS!\n" + zonk_box + " AWAS " + current_zonk_name + "![/center]"
 		else:
-			task_label.text = "[center][ ] TANGKAP " + str(ducks_per_wave) + " HEWAN!\n[ ] HINDARI JEBAKAN![/center]"
+			var zonk_box = "[color=#b71c1c][X][/color]" if zonk_hit_this_wave else "[ ]"
+			task_label.text = "[center][ " + str(ducks_resolved) + " / " + str(ducks_per_wave) + " ] HEWAN LEWAT\n" + zonk_box + " AWAS " + current_zonk_name + "![/center]"
 		
 	if hearts_container:
+		if is_bonus_wave:
+			hearts_container.hide()
+		else:
+			hearts_container.show()
+			
 		# Update heart textures based on current health (Zelda style)
 		var hearts = hearts_container.get_children()
 		for i in range(hearts.size()):
@@ -357,6 +488,7 @@ func game_over(is_win: bool = false):
 		if game_over_image:
 			if is_win:
 				game_over_image.texture = tex_win_logo
+				spawn_confetti()
 				if has_node("/root/AudioManager"):
 					if score >= 5000:
 						AudioManager.play_sfx("sfx_victory2")
@@ -375,6 +507,24 @@ func game_over(is_win: bool = false):
 			else:
 				game_over_label.text = "GAME OVER"
 				game_over_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
+
+		# Handle Highscore Update
+		var is_new_highscore = false
+		if score > Global.highscore:
+			Global.highscore = score
+			Global.save_highscore()
+			is_new_highscore = true
+			
+		var hs_label = game_over_panel.get_node_or_null("NewHighscoreLabel")
+		if hs_label:
+			if is_new_highscore:
+				hs_label.show()
+				hs_label.pivot_offset = hs_label.size / 2.0
+				var hs_tween = create_tween().set_loops()
+				hs_tween.tween_property(hs_label, "scale", Vector2(1.1, 1.1), 1.0).set_trans(Tween.TRANS_SINE)
+				hs_tween.tween_property(hs_label, "scale", Vector2(1.0, 1.0), 1.0).set_trans(Tween.TRANS_SINE)
+			else:
+				hs_label.hide()
 
 	else:
 		# Fallback if UI not created yet
@@ -487,3 +637,40 @@ func _process(delta):
 
 func apply_shake(intensity: float = 1.0):
 	shake_intensity = max(shake_intensity, intensity)
+
+func spawn_confetti():
+	var colors = [Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.ORANGE]
+	for c in colors:
+		var confetti = CPUParticles2D.new()
+		confetti.position = Vector2(screen_size.x / 2, -50)
+		confetti.amount = 40
+		confetti.lifetime = 5.0
+		confetti.one_shot = true
+		confetti.explosiveness = 0.9
+		confetti.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+		confetti.emission_rect_extents = Vector2(screen_size.x / 2, 1)
+		confetti.direction = Vector2(0, 1)
+		confetti.spread = 180.0
+		confetti.gravity = Vector2(0, 500)
+		confetti.initial_velocity_min = 200.0
+		confetti.initial_velocity_max = 600.0
+		confetti.angular_velocity_min = -300.0
+		confetti.angular_velocity_max = 300.0
+		confetti.scale_amount_min = 10.0
+		confetti.scale_amount_max = 20.0
+		confetti.color = c
+		$HUD.add_child(confetti)
+		# Biar confetti hancur sendiri setelah kelar
+		get_tree().create_timer(5.5).timeout.connect(confetti.queue_free)
+
+
+func _unhandled_input(event):
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_N:
+			print("[DEV MODE] Skipping to next wave...")
+			advance_wave()
+		elif event.keycode == KEY_B:
+			print("[DEV MODE] Jumping to Bonus Wave!")
+			current_wave = max_wave
+			is_bonus_wave = true
+			start_wave(current_wave)

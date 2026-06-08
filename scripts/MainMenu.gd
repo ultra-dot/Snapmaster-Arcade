@@ -9,6 +9,10 @@ var time_passed: float = 0.0
 @onready var difficulty_panel = $DifficultyPanel
 
 func _ready():
+	var hs_label = get_node_or_null("HighscoreLabel")
+	if hs_label:
+		hs_label.text = "BEST SCORE: " + str(Global.highscore)
+
 	var logo = get_node_or_null("Logo")
 	if logo:
 		logo_original_y = logo.position.y
