@@ -89,6 +89,7 @@ var species_data = {
 @onready var camera_frame = $CameraFrame
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	screen_size = get_viewport().get_visible_rect().size
 
 	if has_node("/root/Global"):
@@ -535,6 +536,8 @@ func restart_game():
 	get_tree().reload_current_scene()
 
 func return_to_menu():
+	get_tree().paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().change_scene_to_file("res://Scenes/MainMenu.tscn")
 
 func _on_setting_button_pressed():
@@ -628,7 +631,7 @@ func _process(delta):
 
 	# Handle mouse visibility dynamically
 	var hud = get_node_or_null("HUD")
-	var is_ui_active = is_game_over_state or (hud and hud.get_node_or_null("SettingsPanel") and hud.get_node("SettingsPanel").visible) or (hud and hud.get_node_or_null("EduCard") and hud.get_node("EduCard").visible)
+	var is_ui_active = is_game_over_state or is_paused or (hud and hud.get_node_or_null("SettingsPanel") and hud.get_node("SettingsPanel").visible) or (hud and hud.get_node_or_null("EduCard") and hud.get_node("EduCard").visible)
 	
 	if is_ui_active:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -674,3 +677,43 @@ func _unhandled_input(event):
 			current_wave = max_wave
 			is_bonus_wave = true
 			start_wave(current_wave)
+		elif event.keycode == KEY_ESCAPE:
+			toggle_pause()
+
+var is_paused: bool = false
+
+func toggle_pause():
+	if is_game_over_state: return
+	
+	var game_over_panel = $HUD.get_node_or_null("GameOverPanel")
+	if not game_over_panel: return
+	
+	is_paused = !is_paused
+	
+	if is_paused:
+		get_tree().paused = true
+		spawn_timer.stop()
+		
+		# Show panel without game over stuff
+		var game_over_image = game_over_panel.get_node_or_null("GameOverImage")
+		if game_over_image: game_over_image.hide()
+		
+		var game_over_label = game_over_panel.get_node_or_null("Label")
+		if game_over_label:
+			game_over_label.text = "PAUSED"
+			game_over_label.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
+		
+		var final_score_label = game_over_panel.get_node_or_null("FinalScoreLabel")
+		if final_score_label:
+			final_score_label.text = "Score: " + str(score)
+		
+		var hs_label = game_over_panel.get_node_or_null("NewHighscoreLabel")
+		if hs_label: hs_label.hide()
+		
+		game_over_panel.show()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		game_over_panel.hide()
+		get_tree().paused = false
+		spawn_timer.start()
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

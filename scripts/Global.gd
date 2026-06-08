@@ -2,6 +2,7 @@ extends Node
 
 var difficulty_multiplier: float = 1.0
 var max_waves: int = 5
+var hand_tracking_enabled: bool = false
 
 var highscore: int = 0
 const SAVE_PATH = "user://highscore.save"
