@@ -34,61 +34,21 @@ func _ready():
 	)
 
 func show_card(data: Dictionary, snapshot: ImageTexture):
-	name_label.text = data["name"].to_upper()
+	name_label.text = data["name"]
 	latin_label.text = data["latin"]
 	desc_label.text = data["desc"]
 	
 	if snapshot:
 		photo_rect.texture = snapshot
 		
-	# Get the actual font from the theme
-	var font = name_label.get_theme_font("font")
-	
-	if font:
-		# Name Label (Max width: 800px, Default: 55px, Min: 24px)
-		var name_size = 55
-		while name_size > 24:
-			var text_w = font.get_string_size(name_label.text, HORIZONTAL_ALIGNMENT_CENTER, -1, name_size).x
-			if text_w <= 800.0:
-				break
-			name_size -= 2
-		name_label.add_theme_font_size_override("font_size", name_size)
-		
-		# Latin Label (Max width: 780px, Default: 36px, Min: 20px)
-		var latin_size = 36
-		while latin_size > 20:
-			var text_w = font.get_string_size(latin_label.text, HORIZONTAL_ALIGNMENT_CENTER, -1, latin_size).x
-			if text_w <= 780.0:
-				break
-			latin_size -= 2
-		latin_label.add_theme_font_size_override("font_size", latin_size)
-		
-		# Description Label (Max width: 780px, Max height: 230px, Default: 32px, Min: 18px)
-		var desc_size = 32
-		while desc_size > 18:
-			# get_multiline_string_size is 100% accurate as it uses Godot's actual wrapping engine
-			var text_size = font.get_multiline_string_size(desc_label.text, HORIZONTAL_ALIGNMENT_CENTER, 780.0, desc_size)
-			if text_size.y <= 230.0:
-				break
-			desc_size -= 2
-		desc_label.add_theme_font_size_override("font_size", desc_size)
-	else:
-		# Fallback if font is not loaded
-		name_label.add_theme_font_size_override("font_size", 45)
-		latin_label.add_theme_font_size_override("font_size", 28)
-		desc_label.add_theme_font_size_override("font_size", 24)
-	
-	# Show the card with fade in
+	# Munculin dengan animasi pop-up (fade in)
 	show()
 	modulate.a = 0
 	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 1.0, 0.4)
+	tween.tween_property(self, "modulate:a", 1.0, 0.5)
 
 func _on_next_button_pressed():
 	hide()
 	var gm = get_tree().get_first_node_in_group("game_manager")
-	if gm:
-		if gm.has_method("on_educard_next"):
-			gm.on_educard_next()
-		elif gm.has_method("advance_wave"):
-			gm.advance_wave()
+	if gm and gm.has_method("advance_wave"):
+		gm.advance_wave()

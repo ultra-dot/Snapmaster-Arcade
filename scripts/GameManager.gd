@@ -56,7 +56,6 @@ var last_snapshot: ImageTexture = null
 var shown_edu_cards: Array = []
 var captured_species_this_wave: Array = []
 var captured_snapshots_this_wave: Dictionary = {}
-var edu_cards_queue: Array = []
 var current_zonk_name: String = ""
 var zonk_hit_this_wave: bool = false
 
@@ -260,17 +259,10 @@ func start_wave(wave: int):
 func register_capture(snapshot: ImageTexture, target_node: Node2D = null):
 	last_snapshot = snapshot
 	if target_node:
-		var species = ""
-		if target_node.scene_file_path != "":
-			species = target_node.scene_file_path.get_file().get_basename()
-		else:
-			species = target_node.name.rstrip("0123456789")
-			
+		var species = target_node.name.rstrip("0123456789")
 		if species not in captured_species_this_wave:
 			captured_species_this_wave.append(species)
 			print("Registered species: ", species)
-		
-		captured_snapshots_this_wave[species] = snapshot
 
 
 func advance_wave():
@@ -299,33 +291,28 @@ func end_wave():
 	await get_tree().create_timer(1.5).timeout
 	
 	var edu_card = $HUD.get_node_or_null("EduCard")
+	var species_to_show = ""
 	
-	edu_cards_queue.clear()
 	if edu_card:
 		for species in captured_species_this_wave:
 			if species in species_data and species not in shown_edu_cards:
-				edu_cards_queue.append(species)
-				shown_edu_cards.append(species) # Mark as shown immediately so we don't queue duplicates
+				species_to_show = species
+				break
 				
 	captured_species_this_wave.clear()
 				
-	if edu_cards_queue.size() > 0:
-		show_next_edu_card()
+	if species_to_show != "":
+		shown_edu_cards.append(species_to_show)
+		edu_card.show_card(species_data[species_to_show], last_snapshot)
 	else:
-		# Fallback if card isn't ready or no new species
-		advance_wave()
+		# Fallback if card isn't ready or we run out of data or no new species
+		await get_tree().create_timer(1.5).timeout
+		current_wave += 1
 
-func show_next_edu_card():
-	var edu_card = $HUD.get_node_or_null("EduCard")
-	if edu_card and edu_cards_queue.size() > 0:
-		var species_to_show = edu_cards_queue.pop_front()
-		var species_snapshot = captured_snapshots_this_wave.get(species_to_show, last_snapshot)
-		edu_card.show_card(species_data[species_to_show], species_snapshot)
-	else:
-		advance_wave()
-
-func on_educard_next():
-	show_next_edu_card()
+		if current_wave > max_wave:
+			game_over(true)
+		else:
+			start_wave(current_wave)
 
 func _on_spawn_timer_timeout():
 	if ducks_spawned < ducks_per_wave:
@@ -455,12 +442,12 @@ func update_hud():
 	var task_label = $HUD.get_node_or_null("TaskHolder/TaskLabel")
 	if task_label:
 		if current_health <= 0:
-			task_label.text = "[center][color=#ff5555][X][/color] MISI GAGAL[/center]"
+			task_label.text = "[center][color=#b71c1c][X][/color] MISI GAGAL[/center]"
 		elif ducks_resolved >= ducks_per_wave:
-			var zonk_box = "[color=#ff5555][X][/color]" if zonk_hit_this_wave else "[color=#55ff55][V][/color]"
-			task_label.text = "[center][color=#55ff55][V][/color] SEMUA TARGET TUNTAS!\n" + zonk_box + " AWAS " + current_zonk_name + "![/center]"
+			var zonk_box = "[color=#b71c1c][X][/color]" if zonk_hit_this_wave else "[color=#1b5e20][V][/color]"
+			task_label.text = "[center][color=#1b5e20][V][/color] SEMUA TARGET TUNTAS!\n" + zonk_box + " AWAS " + current_zonk_name + "![/center]"
 		else:
-			var zonk_box = "[color=#ff5555][X][/color]" if zonk_hit_this_wave else "[ ]"
+			var zonk_box = "[color=#b71c1c][X][/color]" if zonk_hit_this_wave else "[ ]"
 			task_label.text = "[center][ " + str(ducks_resolved) + " / " + str(ducks_per_wave) + " ] HEWAN LEWAT\n" + zonk_box + " AWAS " + current_zonk_name + "![/center]"
 		
 	if hearts_container:
@@ -528,8 +515,6 @@ func game_over(is_win: bool = false):
 			Global.highscore = score
 			Global.save_highscore()
 			is_new_highscore = true
-			
-		_set_game_over_layout(is_new_highscore)
 			
 		var hs_label = game_over_panel.get_node_or_null("NewHighscoreLabel")
 		if hs_label:
@@ -708,9 +693,6 @@ func toggle_pause():
 		get_tree().paused = true
 		print("Tree paused: ", get_tree().paused)
 		spawn_timer.stop()
-		
-		# Apply shifted-up layout since there is no highscore label shown
-		_set_game_over_layout(false)
 		
 		var final_score_label = pause_panel.get_node_or_null("FinalScoreLabel")
 		if final_score_label:
