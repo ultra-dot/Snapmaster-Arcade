@@ -685,35 +685,32 @@ var is_paused: bool = false
 func toggle_pause():
 	if is_game_over_state: return
 	
-	var game_over_panel = $HUD.get_node_or_null("GameOverPanel")
-	if not game_over_panel: return
-	
+	var pause_panel = $HUD.get_node_or_null("PausePanel")
+	if not pause_panel: return
 	is_paused = !is_paused
 	
 	if is_paused:
 		get_tree().paused = true
+		print("Tree paused: ", get_tree().paused)
 		spawn_timer.stop()
 		
-		# Show panel without game over stuff
-		var game_over_image = game_over_panel.get_node_or_null("GameOverImage")
-		if game_over_image: game_over_image.hide()
-		
-		var game_over_label = game_over_panel.get_node_or_null("Label")
-		if game_over_label:
-			game_over_label.text = "PAUSED"
-			game_over_label.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
-		
-		var final_score_label = game_over_panel.get_node_or_null("FinalScoreLabel")
+		var final_score_label = pause_panel.get_node_or_null("FinalScoreLabel")
 		if final_score_label:
 			final_score_label.text = "Score: " + str(score)
 		
-		var hs_label = game_over_panel.get_node_or_null("NewHighscoreLabel")
+		var hs_label = pause_panel.get_node_or_null("NewHighscoreLabel")
 		if hs_label: hs_label.hide()
 		
-		game_over_panel.show()
+		var game_over_image = pause_panel.get_node_or_null("GameOverImage")
+		if game_over_image: game_over_image.hide()
+		
+		pause_panel.show()
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
-		game_over_panel.hide()
+		pause_panel.hide()
 		get_tree().paused = false
 		spawn_timer.start()
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	
+func _on_resume_button_pressed():
+	toggle_pause()

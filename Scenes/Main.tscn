@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://de82r2weassr0" path="res://assets/ui/HeartsFrame3.png" id="5_vy5pj"]
 [ext_resource type="Script" uid="uid://cp3d0kqj1aql0" path="res://scripts/EduCard.gd" id="7_50glp"]
 [ext_resource type="Texture2D" uid="uid://c77uq8fgymp1j" path="res://assets/ui/card_template.png" id="7_vy5pj"]
+[ext_resource type="Texture2D" uid="uid://c8xaev0jowmc5" path="res://assets/buttons/resume_button.png" id="14_sxkr1"]
 [ext_resource type="PackedScene" uid="uid://wry110205xkc" path="res://Scenes/SettingsPanel.tscn" id="scene_setting_main"]
 [ext_resource type="Texture2D" uid="uid://ch4m0spay2h02" path="res://assets/buttons/continue_button.png" id="tex_continue"]
 [ext_resource type="Texture2D" uid="uid://cqcujwa8idjou" path="res://assets/buttons/home_button.png" id="tex_go_home"]
@@ -236,7 +237,133 @@ texture_normal = ExtResource("tex_go_home")
 ignore_texture_size = true
 stretch_mode = 5
 
+[node name="PausePanel" type="Control" parent="HUD" unique_id=1636977839]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlurOverlay" type="ColorRect" parent="HUD/PausePanel" unique_id=1372056347]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="NewHighscoreLabel" type="Label" parent="HUD/PausePanel" unique_id=6716371]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 40
+text = "NEW HIGHSCORE!"
+horizontal_alignment = 1
+
+[node name="FinalScoreLabel" type="Label" parent="HUD/PausePanel" unique_id=792964617]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -134.0
+offset_right = 104.0
+offset_bottom = -92.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Score: 0"
+horizontal_alignment = 1
+
+[node name="SettingButton" type="TextureButton" parent="HUD/PausePanel" unique_id=1466381425]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.50200003
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -4.0
+offset_right = 156.7732
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("tex_go_setting")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="RetryButton" type="TextureButton" parent="HUD/PausePanel" unique_id=1803524100]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.0
+offset_top = 96.0
+offset_right = 7.0
+offset_bottom = 174.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("tex_go_retry")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="HomeButton" type="TextureButton" parent="HUD/PausePanel" unique_id=782903450]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = 94.0
+offset_right = 201.0
+offset_bottom = 178.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("tex_go_home")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ResumeButton" type="TextureButton" parent="HUD/PausePanel" unique_id=626606675]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.0
+offset_top = -87.0
+offset_right = 159.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("14_sxkr1")
+ignore_texture_size = true
+stretch_mode = 5
+
 [node name="EduCard" type="TextureRect" parent="HUD" unique_id=1148050499]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -330,6 +457,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="TaskHolder" type="TextureRect" parent="HUD" unique_id=1793028435]
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -369,6 +497,14 @@ visible = false
 position = Vector2(199, 75)
 scale = Vector2(2, 2)
 
+[node name="ResumeButton" type="Sprite2D" parent="." unique_id=304086272]
+position = Vector2(536, 1213)
+texture = ExtResource("14_sxkr1")
+
 [connection signal="pressed" from="HUD/GameOverPanel/SettingButton" to="." method="_on_setting_button_pressed"]
 [connection signal="pressed" from="HUD/GameOverPanel/RetryButton" to="." method="restart_game"]
 [connection signal="pressed" from="HUD/GameOverPanel/HomeButton" to="." method="return_to_menu"]
+[connection signal="pressed" from="HUD/PausePanel/SettingButton" to="." method="_on_setting_button_pressed"]
+[connection signal="pressed" from="HUD/PausePanel/RetryButton" to="." method="restart_game"]
+[connection signal="pressed" from="HUD/PausePanel/HomeButton" to="." method="return_to_menu"]
+[connection signal="pressed" from="HUD/PausePanel/ResumeButton" to="." method="_on_resume_button_pressed"]
