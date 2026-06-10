@@ -17,64 +17,47 @@ func _process(delta):
 		if progress_bar: progress_bar.value = 0
 		return
 		
-	# Hold and Steady Mechanic
-	if InputManager.is_trigger_held:
-		var overlapping_areas = get_overlapping_areas()
-		var valid_duck = null
+	# Mode Detection: Use Hold-and-Steady for Hand Tracking, and Instant Snap for Mouse/Controller.
+	var hand_tracking = false
+	if has_node("/root/Global"):
+		hand_tracking = Global.hand_tracking_enabled
 		
-		# Find first valid duck in the frame
-		for area in overlapping_areas:
-			if area.has_method("capture") and not area.is_captured:
-				valid_duck = area
-				break
-				
-		if valid_duck:
-			if targeted_duck == valid_duck:
-				# Keep focusing on the same duck
-				current_capture_timer += delta
-				
-				# Capture triggered!
-				if current_capture_timer >= capture_time:
-					# Sembunyiin 100% semua isi kamera (crosshair, progress bar)
-					self.visible = false
+	if hand_tracking:
+		# Hold and Steady Mechanic (Hand Tracking Mode)
+		if InputManager.is_trigger_held:
+			var targets = get_valid_targets_in_frame()
+			var valid_duck = targets[0] if targets.size() > 0 else null
 					
-					# Kasih jeda waktu super singkat (0.05 detik) biar Godot 100% yakin layarnya udah digambar ulang tanpa UI kamera
-					await get_tree().create_timer(0.05).timeout
+			if valid_duck:
+				if targeted_duck == valid_duck:
+					# Keep focusing on the same duck
+					current_capture_timer += delta
 					
-					# Pastiin bebeknya belum dihapus pas kita nunggu
-					if is_instance_valid(valid_duck):
-						var snapshot = take_snapshot(valid_duck)
-						valid_duck.capture()
-						if gm:
-							if snapshot:
-								gm.register_capture(snapshot, valid_duck)
-						print("Snap! Captured target.")
-					# Camera Flash Effect! (Hanya untuk jamur/healer)
-					if is_instance_valid(valid_duck) and valid_duck.get("is_healer"):
-						var flash = ColorRect.new()
-						# Flash hijau/putih untuk jamur
-						flash.color = Color(0.8, 1.0, 0.8, 1.0)
-						flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-						get_tree().root.add_child(flash)
-						var tween = create_tween()
-						tween.tween_property(flash, "color:a", 0.0, 0.3)
-						tween.tween_callback(flash.queue_free)
-
-					
-					# Munculin crosshair lagi
-					self.visible = true
+					# Capture triggered!
+					if current_capture_timer >= capture_time:
+						_capture_target(valid_duck, gm)
+				else:
+					# Started looking at a new duck, reset timer
+					targeted_duck = valid_duck
 					current_capture_timer = 0.0
-					targeted_duck = null
 			else:
-				# Started looking at a new duck, reset timer
-				targeted_duck = valid_duck
+				# Holding click, but not looking at any duck
 				current_capture_timer = 0.0
+				targeted_duck = null
 		else:
-			# Holding click, but not looking at any duck
+			# Not holding click, reset everything
 			current_capture_timer = 0.0
 			targeted_duck = null
 	else:
-		# Not holding click, reset everything
+		# Instant Capture on Click (Mouse Mode)
+		if InputManager.is_trigger_pulled:
+			var targets = get_valid_targets_in_frame()
+			var valid_duck = targets[0] if targets.size() > 0 else null
+					
+			if valid_duck:
+				_capture_target(valid_duck, gm)
+		
+		# Reset timers/states for Mouse mode
 		current_capture_timer = 0.0
 		targeted_duck = null
 		
@@ -83,6 +66,63 @@ func _process(delta):
 		progress_bar.step = 1
 		progress_bar.max_value = capture_time * 100.0
 		progress_bar.value = current_capture_timer * 100.0
+
+func get_valid_targets_in_frame() -> Array[Area2D]:
+	var valid_targets: Array[Area2D] = []
+	var space_state = get_world_2d().direct_space_state
+	if not space_state:
+		return valid_targets
+		
+	var collision_shape = get_node_or_null("CollisionShape2D")
+	if not collision_shape or not collision_shape.shape:
+		return valid_targets
+		
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.shape = collision_shape.shape
+	query.transform = global_transform
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	
+	var results = space_state.intersect_shape(query)
+	for r in results:
+		var collider = r.get("collider")
+		if collider is Area2D and collider.has_method("capture") and not collider.get("is_captured"):
+			valid_targets.append(collider)
+			
+	return valid_targets
+
+func _capture_target(valid_duck: Area2D, gm: Node):
+	# Sembunyiin 100% semua isi kamera (crosshair, progress bar)
+	self.visible = false
+	
+	# Kasih jeda waktu super singkat (0.05 detik) biar Godot 100% yakin layarnya udah digambar ulang tanpa UI kamera
+	await get_tree().create_timer(0.05).timeout
+	
+	# Pastiin bebeknya belum dihapus pas kita nunggu
+	if is_instance_valid(valid_duck):
+		var snapshot = take_snapshot(valid_duck)
+		valid_duck.capture()
+		if gm:
+			if snapshot:
+				gm.register_capture(snapshot, valid_duck)
+		print("Snap! Captured target.")
+		
+		# Camera Flash Effect! (Hanya untuk jamur/healer)
+		if valid_duck.get("is_healer"):
+			var flash = ColorRect.new()
+			# Flash hijau/putih untuk jamur
+			flash.color = Color(0.8, 1.0, 0.8, 1.0)
+			flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			get_tree().root.add_child(flash)
+			var tween = create_tween()
+			tween.tween_property(flash, "color:a", 0.0, 0.3)
+			tween.tween_callback(flash.queue_free)
+
+	
+	# Munculin crosshair lagi
+	self.visible = true
+	current_capture_timer = 0.0
+	targeted_duck = null
 
 func take_snapshot(target: Area2D) -> ImageTexture:
 	var viewport = get_viewport()

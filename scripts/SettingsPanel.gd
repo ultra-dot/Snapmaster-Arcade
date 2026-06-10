@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var master_slider = $Control/MasterSlider
 @onready var hand_toggle = $Control/HandTrackingToggle
+
 func _ready():
 	hide()
 	master_slider.value = db_to_linear(AudioServer.get_bus_volume_db(0))
