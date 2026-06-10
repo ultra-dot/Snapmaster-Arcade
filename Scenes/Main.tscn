@@ -497,10 +497,6 @@ visible = false
 position = Vector2(199, 75)
 scale = Vector2(2, 2)
 
-[node name="ResumeButton" type="Sprite2D" parent="." unique_id=304086272]
-position = Vector2(536, 1213)
-texture = ExtResource("14_sxkr1")
-
 [connection signal="pressed" from="HUD/GameOverPanel/SettingButton" to="." method="_on_setting_button_pressed"]
 [connection signal="pressed" from="HUD/GameOverPanel/RetryButton" to="." method="restart_game"]
 [connection signal="pressed" from="HUD/GameOverPanel/HomeButton" to="." method="return_to_menu"]
