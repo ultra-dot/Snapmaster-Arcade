@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 @onready var master_slider = $Control/Panel/VBoxContainer/CenterContainer/MasterSlider
-@onready var hand_toggle = $Control/Panel/VBoxContainer/HandTrackingToggle
+@onready var hand_toggle = $Control/Panel/VBoxContainer/ToggleContainer/HandTrackingToggle
 
 func _ready():
 	hide()

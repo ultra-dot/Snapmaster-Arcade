@@ -50,7 +50,9 @@ offset_top = 143.0
 offset_right = -197.0
 offset_bottom = 210.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.2, 0.1, 0.05, 1)
+theme_override_colors/font_color = Color(0.98, 0.92, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.09, 0.03, 1)
+theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 30
 text = "SETTINGS"
 horizontal_alignment = 1
@@ -63,17 +65,19 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -220.0
-offset_top = -30.0
+offset_top = -50.0
 offset_right = 220.0
-offset_bottom = 120.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 25
+theme_override_constants/separation = 12
 
 [node name="LabelMaster" type="Label" parent="Control/Panel/VBoxContainer" unique_id=259975145]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.1, 0.05, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.98, 0.92, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.09, 0.03, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
 text = "Master Volume"
 horizontal_alignment = 1
 
@@ -87,19 +91,30 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
-
 [node name="LabelHandTracking" type="Label" parent="Control/Panel/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.1, 0.05, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.98, 0.92, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.09, 0.03, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
 text = "Hand Tracking"
 horizontal_alignment = 1
 
-[node name="HandTrackingToggle" type="CheckButton" parent="Control/Panel/VBoxContainer"]
+[node name="ToggleContainer" type="HBoxContainer" parent="Control/Panel/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Enable Hand Tracking"
 alignment = 1
+theme_override_constants/separation = 15
+
+[node name="ToggleLabel" type="Label" parent="Control/Panel/VBoxContainer/ToggleContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.92, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.09, 0.03, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
+text = "Enable Hand Tracking"
+
+[node name="HandTrackingToggle" type="CheckButton" parent="Control/Panel/VBoxContainer/ToggleContainer"]
+layout_mode = 2
 
 [node name="CloseButton" type="TextureButton" parent="Control/Panel" unique_id=66131345]
 layout_mode = 1
@@ -120,5 +135,4 @@ stretch_mode = 5
 
 [connection signal="value_changed" from="Control/Panel/VBoxContainer/CenterContainer/MasterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="pressed" from="Control/Panel/CloseButton" to="." method="_on_close_button_pressed"]
-
-[connection signal="toggled" from="Control/Panel/VBoxContainer/HandTrackingToggle" to="." method="_on_hand_tracking_toggle_toggled"]
+[connection signal="toggled" from="Control/Panel/VBoxContainer/ToggleContainer/HandTrackingToggle" to="." method="_on_hand_tracking_toggle_toggled"]
